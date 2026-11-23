@@ -1,0 +1,12 @@
+{
+  "name": "zero-waste-bistro",
+  "version": "1.0.0",
+  "description": "Zero-Waste Bistro: Circular Kitchen Sustainable Gastronomy Game",
+  "dependencies": {
+    "@capacitor/android": "6.1.2",
+    "@capacitor/core": "6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "6.1.2"
+  }
+}
