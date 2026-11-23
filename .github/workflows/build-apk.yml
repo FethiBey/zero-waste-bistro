@@ -32,6 +32,53 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Set Custom App Icon
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pil
+          python3 - << 'EOF'
+          import os
+          from PIL import Image, ImageFilter
+
+          files = [f for f in os.listdir('www/assets') if f.lower().startswith('app_logo.')]
+          if not files:
+              raise FileNotFoundError("www/assets/app_logo.jpg bulunamadi!")
+
+          src = Image.open(os.path.join('www/assets', files[0])).convert('RGBA')
+          densities = {
+              'mdpi': (48, 108),
+              'hdpi': (72, 162),
+              'xhdpi': (96, 216),
+              'xxhdpi': (144, 324),
+              'xxxhdpi': (192, 432),
+          }
+
+          for d, (legacy, fg) in densities.items():
+              folder = f'android/app/src/main/res/mipmap-{d}'
+              os.makedirs(folder, exist_ok=True)
+              leg_img = src.resize((legacy, legacy), Image.LANCZOS)
+              leg_img.save(f'{folder}/ic_launcher.png')
+              leg_img.save(f'{folder}/ic_launcher_round.png')
+
+              bg_img = src.resize((fg, fg), Image.LANCZOS).filter(ImageFilter.GaussianBlur(radius=max(1, fg // 16)))
+              inner = int(fg * 0.76)
+              fg_inner = src.resize((inner, inner), Image.LANCZOS)
+              offset = (fg - inner) // 2
+              bg_img.paste(fg_inner, (offset, offset))
+              bg_img.save(f'{folder}/ic_launcher_foreground.png')
+
+          anydpi = 'android/app/src/main/res/mipmap-anydpi-v26'
+          os.makedirs(anydpi, exist_ok=True)
+          xml_content = '''<?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@mipmap/ic_launcher_foreground"/>
+              <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+          </adaptive-icon>
+          '''
+          for name in ('ic_launcher.xml', 'ic_launcher_round.xml'):
+              with open(os.path.join(anydpi, name), 'w') as f:
+                  f.write(xml_content.strip())
+          EOF
+
       - name: Build Debug APK
         run: |
           cd android
