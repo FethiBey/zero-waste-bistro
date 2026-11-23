@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Zero-Waste Bistro: Circular Kitchen</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ONBOARDING / PLAYER SETUP SCREEN -->
+  <section id="screen-onboarding" class="screen hidden">
+    <div class="wood-board onboarding-board">
+      <div class="title-banner">Zero-Waste Bistro</div>
+      <p class="subtitle">Circular Sustainable Gastronomy Game</p>
+
+      <div class="onboarding-grid">
+        <!-- Left: Nickname & Avatar -->
+        <div class="panel-box">
+          <h3>1. Chef Identity</h3>
+          <label for="input-nickname" class="field-label">Player Nickname</label>
+          <input id="input-nickname" type="text" maxlength="16" placeholder="e.g. Chef Alex" />
+
+          <label class="field-label">Choose Chef Avatar</label>
+          <div class="avatar-row">
+            <button type="button" class="avatar-card selected" data-avatar="chef_classic.jpg">
+              <img src="assets/chef_classic.jpg" alt="Classic Culinary Chef" />
+              <span>Classic Chef</span>
+            </button>
+            <button type="button" class="avatar-card" data-avatar="chef_eco.jpg">
+              <img src="assets/chef_eco.jpg" alt="Eco-Gardener Chef" />
+              <span>Eco-Gardener</span>
+            </button>
+            <button type="button" class="avatar-card" data-avatar="chef_artisan.jpg">
+              <img src="assets/chef_artisan.jpg" alt="Modern Artisan Chef" />
+              <span>Modern Artisan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Starting Philosophy -->
+        <div class="panel-box">
+          <h3>2. Starting Philosophy</h3>
+          <p class="hint-text">Select your kitchen specialty perk:</p>
+          <div class="perk-list">
+            <button type="button" class="perk-card selected" data-perk="compost">
+              <strong>Compost Master</strong>
+              <span>Start with 2 Fertilizers &amp; 3 Free Seeds for your garden.</span>
+            </button>
+            <button type="button" class="perk-card" data-perk="shelter">
+              <strong>Shelter Hero</strong>
+              <span>+25% extra Reputation Score from all Shelter Donations.</span>
+            </button>
+            <button type="button" class="perk-card" data-perk="bargainer">
+              <strong>Local Bargainer</strong>
+              <span>Permanent 15% discount on all Farm Market supplies.</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-start-game" class="btn-green btn-large">Start My Bistro</button>
+    </div>
+  </section>
+
+  <!-- MAIN GAME SHELL -->
+  <div id="app-shell" class="hidden">
+    <!-- TOP HUD -->
+    <header class="top-hud">
+      <div class="hud-left">
+        <img id="hud-avatar" class="hud-avatar" src="assets/chef_classic.jpg" alt="Chef" />
+        <div class="hud-identity">
+          <div id="hud-nickname" class="hud-name">Chef</div>
+          <div id="hud-phase-label" class="hud-phase">Restaurant Shift</div>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="stat-pill stat-day">Day <span id="hud-day">1</span></div>
+        <div class="stat-pill stat-money">$<span id="hud-money">100</span></div>
+        <div class="stat-pill stat-score">★ <span id="hud-score">0</span></div>
+        <div class="stat-pill stat-timer" id="hud-timer-pill">01:00</div>
+      </div>
+
+      <div class="hud-actions">
+        <button id="btn-open-milestones" class="btn-wood-sm">Milestones</button>
+        <button id="btn-open-chars" class="btn-wood-sm">Characters</button>
+        <button id="btn-open-settings" class="btn-wood-sm">Menu</button>
+      </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="workspace">
+      <!-- LEFT: PLAY AREA -->
+      <section class="play-area">
+
+        <!-- PHASE 1: RESTAURANT SHIFT VIEW -->
+        <div id="view-shift" class="scene-view">
+          <div id="shift-bg" class="scene-bg"></div>
+
+          <!-- Ready Overlay before Shift Starts -->
+          <div id="shift-start-overlay" class="shift-overlay hidden">
+            <div class="wood-board overlay-card">
+              <h2 id="overlay-day-title">Day 1 Service</h2>
+              <p>Serve customers within 60 seconds, manage your kitchen reserves, and avoid food waste!</p>
+              <button id="btn-begin-shift" class="btn-green btn-large">Open Restaurant (60s)</button>
+            </div>
+          </div>
+
+          <!-- Rush & Powerups Top Strip -->
+          <div class="shift-topbar">
+            <div id="rush-banner" class="rush-banner hidden">ZERO-WASTE RUSH! 2x SCORE</div>
+            <button id="btn-powerup-aroma" class="btn-amber-sm">
+              Herbal Aroma ($30) — Freeze Patience 10s
+            </button>
+          </div>
+
+          <!-- Customers Counter Area -->
+          <div id="customers-row" class="customers-row"></div>
+
+          <!-- Prepared Counter Tray -->
+          <div class="counter-strip">
+            <div class="counter-label">Ready Counter Tray (Tap dish or matching customer to serve):</div>
+            <div id="counter-tray" class="counter-tray"></div>
+          </div>
+
+          <!-- Kitchen Cooking Menu -->
+          <div class="kitchen-menu-bar">
+            <div id="menu-grid" class="menu-grid"></div>
+          </div>
+        </div>
+
+        <!-- PHASE 2: EVENING MANAGEMENT VIEW -->
+        <div id="view-evening" class="scene-view hidden">
+          <!-- Sub-Navigation Tabs -->
+          <div class="evening-tabs">
+            <button class="evening-tab active" data-tab="garden">1. Garden &amp; Compost</button>
+            <button class="evening-tab" data-tab="market">2. Farm Market</button>
+            <button class="evening-tab" data-tab="shelter">3. Shelter Donation</button>
+          </div>
+
+          <!-- TAB 1: GARDEN & COMPOST -->
+          <div id="tab-garden" class="evening-panel">
+            <div class="scene-bg" style="background-image:url('assets/bg_garden.jpg')"></div>
+            <div class="garden-layout">
+              <!-- Compost Corner -->
+              <div class="compost-card">
+                <h4>Compost Bin</h4>
+                <img src="assets/obj_compost.jpg" alt="Compost Bin" class="compost-img" />
+                <div class="compost-stats">
+                  <div>In Bin: <strong id="compost-in-bin">0</strong> scraps</div>
+                  <div>Fertilizer: <strong id="fertilizer-count">0</strong></div>
+                </div>
+                <button id="btn-dump-scraps" class="btn-amber-sm full-btn">Dump Kitchen Scraps</button>
+                <button id="btn-convert-compost" class="btn-green-sm full-btn">Make Fertilizer (5 Scraps)</button>
+              </div>
+
+              <!-- Seeds & Plots -->
+              <div class="garden-main">
+                <div class="seed-bar">
+                  <button class="seed-btn active" data-seed="carrot">Carrot ($10)</button>
+                  <button class="seed-btn" data-seed="lettuce">Lettuce ($10)</button>
+                  <button class="seed-btn" data-seed="tomato">Tomato ($10)</button>
+                  <button class="seed-btn" data-seed="apple">Apple ($10)</button>
