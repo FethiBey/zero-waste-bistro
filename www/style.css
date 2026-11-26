@@ -1,5 +1,5 @@
 /* =========================================================
-   ZERO-WASTE BISTRO v2.0 — MOBILE & TABLET RESPONSIVE CSS
+   ZERO-WASTE BISTRO v3.0 — CLASSIC WARM UI + FULL MOBILE FIT
    ========================================================= */
 
 * {
@@ -10,18 +10,24 @@
     user-select: none;
 }
 
+input { user-select: text; }
+
 :root {
-    --wood-dark: #251409;
-    --wood-mid: #472911;
-    --wood-light: #76471f;
-    --cream: #fdf2dc;
-    --cream-dark: #e8d2ab;
-    --text-dark: #2c180b;
-    --green: #2e7d32;
-    --green-bright: #4caf50;
-    --gold: #c87f0a;
-    --red: #c62828;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --bg-brown: #4d2e17;
+    --wood-dark: #2c180a;
+    --wood-mid: #4a2a13;
+    --wood-light: #7c4d25;
+    --cream: #fcf3e3;
+    --cream-soft: #fff9ee;
+    --cream-border: #d9be94;
+    --text-dark: #331b0b;
+    --text-muted: #6e4a2b;
+    --green: #2e8b3c;
+    --green-dark: #1d6428;
+    --amber: #d98218;
+    --blue: #2d87d3;
+    --red: #c93232;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.32);
 }
 
 html, body {
@@ -30,8 +36,8 @@ html, body {
     height: 100dvh;
     overflow: hidden;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--wood-dark);
-    color: #fff;
+    background: var(--bg-brown);
+    color: var(--text-dark);
 }
 
 .hidden { display: none !important; }
@@ -43,14 +49,13 @@ html, body {
     flex-direction: column;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
-
 .screen.active { display: flex; }
 
 button {
     font-family: inherit;
     cursor: pointer;
     border: none;
-    transition: transform 0.1s ease, filter 0.15s ease;
+    transition: transform 0.1s ease, filter 0.12s ease;
 }
 button:active { transform: scale(0.96); }
 
@@ -65,240 +70,402 @@ button:active { transform: scale(0.96); }
     flex-direction: column;
     gap: 5px;
     width: 90%;
-    max-width: 360px;
+    max-width: 390px;
     pointer-events: none;
 }
 
 .toast {
-    background: var(--wood-mid);
+    background: var(--wood-dark);
     color: #fff;
-    padding: 8px 12px;
+    padding: 8px 14px;
     border-radius: 10px;
-    border: 2px solid var(--gold);
+    border: 2px solid var(--amber);
     font-weight: 700;
     font-size: 0.82rem;
     text-align: center;
     box-shadow: var(--shadow);
     animation: toastIn 0.2s ease-out;
 }
-.toast.good { background: #1b5e20; border-color: #81c784; }
-.toast.bad { background: #7f1d1d; border-color: #fca5a5; }
+.toast.good { background: #1e6b2b; border-color: #86efac; }
+.toast.bad { background: #8c1d1d; border-color: #fca5a5; }
 
 @keyframes toastIn {
     from { opacity: 0; transform: translateY(-8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ORTAK BUTONLAR */
-.primary-btn {
-    background: linear-gradient(180deg, #4caf50 0%, #1b5e20 100%);
-    color: #fff;
-    font-size: 0.95rem;
-    font-weight: 800;
-    padding: 11px 22px;
-    border-radius: 12px;
-    border: 2px solid #134015;
-    box-shadow: 0 3px 0 #134015;
+/* ORTAK KART & BUTONLAR */
+.cream-card {
+    background: var(--cream);
+    color: var(--text-dark);
+    border: 2px solid var(--cream-border);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: var(--shadow);
 }
 
-.secondary-btn {
-    background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+.green-cta-btn {
+    background: linear-gradient(180deg, #43b050 0%, #247831 100%);
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     font-weight: 800;
-    padding: 10px 16px;
+    padding: 11px 28px;
     border-radius: 12px;
-    border: 2px solid #78350f;
+    border: 2px solid #185722;
+    box-shadow: 0 3px 0 #185722;
 }
 
-.secondary-btn.active-fert {
-    background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
-    border-color: #14532d;
+.amber-btn {
+    background: linear-gradient(180deg, #f3a134 0%, #c47210 100%);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 2px solid #8a4d06;
+}
+.amber-btn.active-fert {
+    background: linear-gradient(180deg, #35a846 0%, #1d6d28 100%);
+    border-color: #134a1a;
 }
 
-.danger-btn {
-    background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+.red-btn {
+    background: linear-gradient(180deg, #e04f4f 0%, #b32626 100%);
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 800;
-    padding: 10px 16px;
-    border-radius: 12px;
-    border: 2px solid #7f1d1d;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 2px solid #7d1717;
 }
 
 .full-btn { width: 100%; }
-.sm-btn { padding: 6px 10px; font-size: 0.74rem; border-radius: 9px; }
+.sm-btn { padding: 6px 10px; font-size: 0.74rem; border-radius: 8px; }
+.sm-cta { padding: 9px 14px; font-size: 0.84rem; width: 100%; }
 
 /* =========================================================
-   1. GİRİŞ EKRANI
+   1. KLASİK GİRİŞ EKRANI + 5 SAVE SLOTU
    ========================================================= */
 #startScreen {
-    background: radial-gradient(circle at top, #523015 0%, #160b04 100%);
-    padding: 12px 16px;
-    justify-content: space-between;
+    background: radial-gradient(circle at center top, #5f3a1e 0%, #3d2412 100%);
     overflow-y: auto;
+    padding: 10px 14px 16px;
 }
 
 .start-top-bar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+    max-width: 960px;
     width: 100%;
+    margin: 0 auto 6px;
     flex-shrink: 0;
-}
-
-.reset-btn {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--cream-dark);
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-size: 0.74rem;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .lang-selector { display: flex; gap: 6px; }
 
 .lang-btn {
-    background: var(--wood-mid);
-    color: var(--cream-dark);
+    background: var(--wood-dark);
+    color: var(--cream);
     border: 2px solid var(--wood-light);
-    padding: 5px 12px;
+    padding: 4px 12px;
     border-radius: 8px;
     font-weight: 800;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
 }
-
 .lang-btn.active {
     background: var(--green);
-    color: #fff;
-    border-color: #81c784;
+    border-color: #86efac;
 }
 
-.start-main {
-    flex: 1;
+.start-container {
+    width: 100%;
+    max-width: 960px;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    min-height: 0;
+    gap: 10px;
 }
 
-.logo-area {
+.start-banner {
+    background: linear-gradient(180deg, #6b3f1e 0%, #442610 100%);
+    border: 2px solid #a87b4f;
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.start-banner h1 {
+    color: var(--cream-soft);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    margin-bottom: 2px;
+}
+.start-banner p {
+    color: #e4c9a3;
+    font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+}
+
+/* 5 KAYIT SLOTU PANELİ */
+.slots-panel {
+    background: rgba(34, 19, 8, 0.65);
+    border: 1.5px solid #8a5b32;
+    border-radius: 14px;
+    padding: 8px 10px;
+}
+
+.slots-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 7px;
+    color: var(--cream);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+.slots-header small { color: #d8be98; font-weight: 600; font-size: 0.7rem; }
+
+.save-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(125px, 1fr));
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.slot-card {
+    background: var(--cream);
+    color: var(--text-dark);
+    border: 2.5px solid var(--cream-border);
+    border-radius: 11px;
+    padding: 6px 7px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    text-align: left;
+    gap: 7px;
+    cursor: pointer;
+    position: relative;
+    min-height: 54px;
 }
 
-.start-logo {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-    border: 2px solid var(--gold);
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-.logo-area h1 {
-    font-size: clamp(1.3rem, 4vw, 2.1rem);
+.slot-card.empty-slot {
+    background: rgba(252, 243, 227, 0.14);
     color: var(--cream);
-    line-height: 1.1;
-}
-
-.logo-area p {
-    color: var(--cream-dark);
-    font-size: clamp(0.75rem, 2.2vw, 0.95rem);
-}
-
-.character-select-wrapper {
-    width: 100%;
+    border-style: dashed;
+    border-color: #a87b4f;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
     text-align: center;
 }
 
-.character-select-wrapper h3 {
-    font-size: 0.9rem;
-    color: var(--cream);
+.slot-card.selected {
+    border-color: #36b849;
+    box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.55);
+}
+
+.slot-card.empty-slot.selected {
+    background: rgba(46, 139, 60, 0.28);
+    border-style: solid;
+}
+
+.slot-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1.5px solid var(--wood-light);
+    flex-shrink: 0;
+}
+
+.slot-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.slot-name {
+    font-size: 0.74rem;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.slot-meta {
+    font-size: 0.64rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.slot-del-btn {
+    background: rgba(185, 28, 28, 0.12);
+    color: #991b1b;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2 KREM KURULUM KARTI */
+.setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.setup-grid.locked-preview {
+    opacity: 0.78;
+}
+
+.cream-card h3 {
+    font-size: 0.96rem;
+    color: var(--text-dark);
     margin-bottom: 8px;
 }
 
-.chef-cards {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(76px, 1fr));
-    gap: 8px;
-    overflow-x: auto;
-    padding: 4px 2px;
+.field-label {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 4px;
 }
 
-.chef-card {
-    background: var(--wood-mid);
-    border: 2.5px solid var(--wood-light);
-    border-radius: 12px;
-    padding: 7px 5px;
+.field-sub {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.nickname-input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--cream-border);
+    background: #fff;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    outline: none;
+}
+.nickname-input:focus { border-color: var(--green); }
+
+.chef-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.chef-pick-card {
+    background: var(--cream-soft);
+    border: 2px solid var(--cream-border);
+    border-radius: 10px;
+    padding: 5px 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     cursor: pointer;
+    text-align: center;
 }
 
-.chef-card.selected {
-    border-color: var(--green-bright);
-    background: #1b3a1d;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.45);
+.chef-pick-card.selected {
+    border-color: var(--green);
+    background: #e9f9ec;
+    box-shadow: 0 0 0 1.5px var(--green);
 }
 
-.chef-card img {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
+.chef-pick-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 64px;
+    border-radius: 8px;
     object-fit: cover;
-    border: 2px solid var(--gold);
 }
 
-.chef-card span {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--cream);
-    line-height: 1.15;
+.chef-pick-card span {
+    font-size: 0.64rem;
+    font-weight: 800;
+    line-height: 1.1;
 }
 
-.start-cta {
-    min-width: 210px;
-    padding: 12px 28px;
-    font-size: 1rem;
+/* FELSEFE / GÜÇLENDİRME KARTLARI */
+.philosophy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.phil-card {
+    background: var(--cream-soft);
+    border: 2px solid var(--cream-border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.phil-card.selected {
+    border-color: var(--green);
+    background: #eaf9ec;
+}
+
+.phil-title {
+    font-size: 0.84rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 2px;
+}
+
+.phil-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.start-cta-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 2px;
 }
 
 /* =========================================================
-   2. HUD (ÜST BAR)
+   2. OYUN EKRANI HUD (KLASİK V1 GÖRÜNÜM)
    ========================================================= */
+#gameScreen {
+    background: #3a2210;
+}
+
 .game-header {
-    background: var(--wood-mid);
-    border-bottom: 2.5px solid var(--wood-light);
-    padding: 5px 8px;
+    background: var(--wood-dark);
+    border-bottom: 2px solid #5e3819;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
 }
 
 .hud-profile {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     min-width: 0;
 }
 
 #activeChefImg {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    border: 2px solid var(--gold);
+    border-radius: 8px;
+    border: 2px solid var(--amber);
     object-fit: cover;
     flex-shrink: 0;
 }
@@ -310,108 +477,184 @@ button:active { transform: scale(0.96); }
 }
 
 #chefNameDisplay {
+    color: #fff;
     font-weight: 800;
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 95px;
-}
-
-.hud-sub-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.day-tag {
-    font-size: 0.64rem;
-    color: var(--cream-dark);
-    font-weight: 700;
+    max-width: 130px;
 }
 
 .phase-pill {
-    font-size: 0.58rem;
-    font-weight: 800;
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.6rem;
+    font-weight: 900;
     background: var(--green);
-    padding: 1px 5px;
-    border-radius: 5px;
+    color: #fff;
+    padding: 1px 7px;
+    border-radius: 99px;
+    margin-top: 1px;
 }
-.phase-pill.evening { background: #1e40af; }
+.phase-pill.evening { background: var(--blue); }
 
-.hud-stats {
+.hud-center-pills {
     display: flex;
-    gap: 4px;
+    align-items: center;
+    gap: 5px;
     flex-wrap: nowrap;
 }
 
-.stat-pill {
-    padding: 4px 7px;
-    border-radius: 8px;
+.hud-pill {
+    background: #472a14;
+    color: #fff;
+    border: 1.5px solid #6e4421;
+    padding: 4px 9px;
+    border-radius: 99px;
+    font-size: 0.76rem;
     font-weight: 800;
-    font-size: 0.74rem;
     white-space: nowrap;
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
 }
 
-.timer-pill { background: #7c2d12; border-color: #fb923c; }
-.money-pill { background: #14532d; border-color: #4ade80; }
-.score-pill { background: #451a03; border-color: #fbbf24; }
+.timer-pill { border-color: #d97706; background: #5a2a12; }
+.money-pill { border-color: #4ade80; background: #1c4d27; }
+.score-pill { border-color: #facc15; background: #54370e; }
 
 .hud-actions {
     display: flex;
-    gap: 4px;
+    gap: 5px;
     flex-shrink: 0;
 }
 
-.hud-btn {
-    background: var(--wood-light);
-    border-radius: 8px;
-    padding: 5px 8px;
-    color: #fff;
-    font-weight: 800;
+.cream-hud-btn {
+    background: var(--cream);
+    color: var(--text-dark);
+    border: 1.5px solid var(--cream-border);
+    padding: 5px 10px;
+    border-radius: 9px;
     font-size: 0.76rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
+    gap: 4px;
+}
+.cream-hud-btn.icon-only { padding: 5px 8px; }
+
+/* =========================================================
+   3. ANA SPLIT DÜZEN: SOL SAHNE + SAĞ BİLGİ PANELİ
+   ========================================================= */
+.game-main-split {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.main-stage-col {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-col {
+    width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+}
+
+.side-card {
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.side-card h4 {
+    font-size: 0.86rem;
+    color: var(--text-dark);
+    border-bottom: 1.5px solid #ead8bc;
+    padding-bottom: 4px;
+}
+
+.side-res-row {
+    display: flex;
+    flex-direction: column;
     gap: 3px;
 }
 
+.side-res-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.res-track {
+    width: 100%;
+    height: 8px;
+    background: #e5d2b3;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.res-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.waste-stat-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.waste-stat-line strong { color: var(--text-dark); }
+
+.side-warn {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #9a520a;
+    background: #fff3d6;
+    border: 1px solid #f0c97a;
+    padding: 6px 8px;
+    border-radius: 8px;
+    line-height: 1.3;
+}
+
 /* =========================================================
-   3. MESAİ EKRANI (DİKEY & YATAY TAM UYUMLU)
+   4. MESAİ EKRANI (KLASİK RESTORAN + 5x2 TEZGAH)
    ========================================================= */
 .view-container {
     display: none;
     flex: 1;
     min-height: 0;
     flex-direction: column;
+    gap: 8px;
     overflow: hidden;
 }
 .view-container.active { display: flex; }
 
-.shift-layout {
+.ambiance-stage {
     flex: 1;
     min-height: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.stage-column {
-    flex: 0 0 46%;
-    min-height: 0;
-    display: flex;
-}
-
-.ambiance-stage {
     position: relative;
-    width: 100%;
-    height: 100%;
+    border-radius: 14px;
+    border: 2px solid #7c4d25;
     overflow: hidden;
-    border-bottom: 3px solid var(--wood-light);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 6px;
+    padding: 8px 10px 10px;
 }
 
 #ambianceImg {
@@ -423,7 +666,7 @@ button:active { transform: scale(0.96); }
     z-index: 0;
 }
 
-.stage-overlay-top {
+.stage-top-controls {
     position: relative;
     z-index: 2;
     display: flex;
@@ -432,44 +675,87 @@ button:active { transform: scale(0.96); }
     gap: 6px;
 }
 
-.priority-hint {
-    background: rgba(25, 14, 6, 0.78);
-    color: #fde68a;
-    padding: 3px 8px;
-    border-radius: 8px;
-    font-size: 0.68rem;
+.aroma-btn {
+    background: linear-gradient(180deg, #3ea2f2 0%, #2072b8 100%);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.74rem;
     font-weight: 800;
-    border: 1px solid rgba(251, 191, 36, 0.45);
+    border: 1.5px solid #93c5fd;
+    box-shadow: var(--shadow);
+}
+.aroma-btn.active-aroma {
+    background: linear-gradient(180deg, #06b6d4 0%, #0e7490 100%);
+    box-shadow: 0 0 12px #38bdf8;
 }
 
-.buff-pill {
-    background: #0284c7;
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 8px;
-    font-size: 0.68rem;
+.streak-banner {
+    background: rgba(34, 19, 8, 0.85);
+    color: #fde68a;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.74rem;
     font-weight: 800;
+    border: 1.5px solid #b45309;
+}
+.streak-banner.streak-hot {
+    background: #14532d;
+    color: #bbf7d0;
+    border-color: #4ade80;
+}
+
+.pause-pill-btn {
+    background: rgba(34, 19, 8, 0.85);
+    color: var(--cream);
+    padding: 5px 12px;
+    border-radius: 9px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    border: 1.5px solid #8a5b32;
+}
+
+.stage-mid-area {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.priority-hint-row {
+    display: flex;
+    justify-content: center;
+}
+
+.priority-hint {
+    background: rgba(34, 19, 8, 0.72);
+    color: #fde68a;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 99px;
 }
 
 .orders-container {
-    position: relative;
-    z-index: 2;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    align-items: end;
+    gap: 10px;
+    align-items: center;
 }
 
+/* KLASİK GENİŞ KREM MÜŞTERİ KARTI */
 .order-card {
-    background: rgba(253, 242, 220, 0.96);
-    color: var(--text-dark);
-    border: 2.5px solid var(--wood-light);
-    border-radius: 12px;
-    padding: 5px;
+    background: rgba(252, 243, 227, 0.96);
+    border: 2.5px solid #8c5a2b;
+    border-radius: 13px;
+    padding: 7px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
+    gap: 5px;
     box-shadow: var(--shadow);
     cursor: pointer;
     position: relative;
@@ -479,361 +765,362 @@ button:active { transform: scale(0.96); }
 .order-card.priority {
     border-color: #16a34a;
     background: #ecfdf5;
-    box-shadow: 0 0 0 2px #4ade80, var(--shadow);
+    box-shadow: 0 0 0 2.5px #4ade80, var(--shadow);
 }
 
-.order-top-pair {
+.order-dish-strip {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #e5d2b3;
+    border-radius: 8px;
+    padding: 3px 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    width: 100%;
-}
-
-.cust-thumb {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid var(--wood-light);
+    gap: 6px;
 }
 
 .dish-thumb {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
     object-fit: cover;
-    border: 1.5px solid var(--gold);
+    flex-shrink: 0;
 }
 
-.order-name {
-    font-size: 0.68rem;
+.order-dish-name {
+    font-size: 0.74rem;
     font-weight: 800;
-    text-align: center;
+    color: var(--text-dark);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
 }
 
-.order-role {
-    font-size: 0.58rem;
-    color: #5c3a21;
-    font-weight: 700;
+.cust-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--wood-light);
+}
+
+.order-cust-name {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    text-align: center;
 }
 
 .order-patience-bar {
     width: 100%;
-    height: 6px;
-    background: var(--cream-dark);
+    height: 7px;
+    background: #e5d2b3;
     border-radius: 99px;
     overflow: hidden;
 }
 
 .order-patience-fill {
     height: 100%;
-    transition: width 0.2s linear;
+    transition: width 0.12s linear;
 }
 
 .priority-badge {
     position: absolute;
-    top: -7px;
-    right: -5px;
+    top: -8px;
+    right: 6px;
     background: #16a34a;
     color: #fff;
-    font-size: 0.6rem;
+    font-size: 0.62rem;
     font-weight: 900;
-    padding: 1px 5px;
-    border-radius: 8px;
+    padding: 1px 6px;
+    border-radius: 99px;
 }
 
-/* MUTFAK & STOK BÖLÜMÜ */
-.kitchen-column {
-    flex: 1;
-    min-height: 0;
+/* MOBİL MİNİ STOK ŞERİDİ (Masaüstü/Tablette gizli) */
+.mobile-reserve-strip { display: none; }
+
+/* ALT MUTFAK MENÜSÜ (5x2 — 10 YEMEK) */
+.kitchen-menu-box {
+    background: var(--wood-dark);
+    border: 2px solid #6b411e;
+    border-radius: 14px;
+    padding: 8px 10px;
     display: flex;
     flex-direction: column;
-    padding: 6px 8px;
     gap: 6px;
-    background: var(--wood-dark);
-    overflow: hidden;
-}
-
-.reserve-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    background: var(--wood-mid);
-    padding: 5px 8px;
-    border-radius: 10px;
-    border: 1.5px solid var(--wood-light);
     flex-shrink: 0;
 }
 
-.light-strip {
-    background: rgba(253, 242, 220, 0.94);
-    color: var(--text-dark);
-}
-
-.res-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.75rem;
-    font-weight: 800;
-}
-
-.res-track {
-    flex: 1;
-    height: 8px;
-    background: rgba(0, 0, 0, 0.35);
-    border-radius: 99px;
-    overflow: hidden;
-}
-
-.res-fill {
-    height: 100%;
-    width: 50%;
-    border-radius: 99px;
-    transition: width 0.2s ease, background-color 0.2s ease;
-}
-
-.kitchen-station {
-    flex: 1;
-    min-height: 0;
-    background: var(--wood-mid);
-    border-radius: 12px;
-    padding: 7px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1.5px solid var(--wood-light);
-}
-
-.kitchen-header {
+.kitchen-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--cream);
     font-size: 0.76rem;
     font-weight: 800;
-    color: var(--cream);
-    margin-bottom: 5px;
-    flex-shrink: 0;
+    gap: 8px;
 }
 
-.leftover-mini {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 2px 7px;
-    border-radius: 7px;
-    font-size: 0.7rem;
+.kitchen-mini-stats {
+    display: flex;
+    gap: 6px;
+    color: #f4d599;
+    font-size: 0.74rem;
+    white-space: nowrap;
 }
+.kitchen-mini-stats .sep { opacity: 0.5; }
 
 .recipe-grid {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 6px;
-    align-content: start;
-    padding-right: 2px;
 }
 
 .recipe-btn {
     background: var(--cream);
     color: var(--text-dark);
-    padding: 6px;
+    border: 2px solid var(--cream-border);
     border-radius: 10px;
+    padding: 6px 5px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
-    font-weight: 800;
-    text-align: left;
-    border: 2px solid var(--wood-light);
-    min-width: 0;
+    justify-content: center;
+    gap: 2px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 76px;
+}
+
+.recipe-btn.needed {
+    border-color: #22c55e;
+    background: #ebfff0;
+    box-shadow: 0 0 0 1.5px #4ade80 inset;
 }
 
 .recipe-btn.no-stock {
-    opacity: 0.5;
+    opacity: 0.55;
     border-color: var(--red);
 }
 
-.recipe-btn img {
-    width: 34px;
-    height: 34px;
-    border-radius: 7px;
-    object-fit: cover;
-    flex-shrink: 0;
+.recipe-btn.locked-dish {
+    background: #8c7a69;
+    border-color: #6b5a4b;
+    color: #2d231b;
+    opacity: 0.75;
+    cursor: default;
 }
 
-.recipe-info {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+.recipe-btn.locked-dish img {
+    filter: grayscale(1) brightness(0.65);
+}
+
+.recipe-btn img {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    object-fit: cover;
+    z-index: 2;
 }
 
 .recipe-name {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
+    z-index: 2;
 }
 
 .recipe-cost {
     font-size: 0.62rem;
-    color: #5c3a21;
+    font-weight: 700;
+    color: var(--text-muted);
+    z-index: 2;
+}
+
+.prep-tag {
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    font-size: 0.56rem;
+    font-weight: 800;
+    color: #7c4d25;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0 4px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+/* YEMEK PİŞİRME İLERLEME ÇUBUĞU (1–3 sn) */
+.recipe-btn.cooking {
+    border-color: #d97706;
+    background: #fffbeb;
+}
+
+.cook-progress-bg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(245, 158, 11, 0.32);
+    z-index: 1;
+    pointer-events: none;
+    transition: width 0.1s linear;
+}
+
+.cook-timer-pill {
+    position: absolute;
+    inset: 0;
+    background: rgba(44, 24, 10, 0.55);
+    color: #fef08a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 900;
+    z-index: 3;
 }
 
 /* =========================================================
-   4. AKŞAM YÖNETİM PANELİ
+   5. AKŞAM YÖNETİM PANELİ
    ========================================================= */
-.mgmt-top {
+.mgmt-top-bar {
     display: flex;
-    align-items: stretch;
-    background: var(--wood-mid);
-    border-bottom: 2.5px solid var(--wood-light);
+    background: var(--wood-dark);
+    border: 2px solid #6b411e;
+    border-radius: 12px;
+    overflow: hidden;
     flex-shrink: 0;
 }
 
-.tabs {
+.mgmt-tabs {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
 
-.tab-btn {
-    background: none;
-    color: var(--cream-dark);
-    padding: 9px 4px;
+.mgmt-tab {
+    background: transparent;
+    color: #e6cca6;
+    padding: 10px 6px;
+    font-size: 0.8rem;
     font-weight: 800;
-    font-size: 0.74rem;
-    white-space: nowrap;
 }
-
-.tab-btn.active {
+.mgmt-tab.active {
     background: var(--cream);
     color: var(--text-dark);
 }
 
-.btn-start-shift-compact {
-    background: linear-gradient(180deg, #4caf50 0%, #1b5e20 100%);
+.green-shift-btn {
+    background: linear-gradient(180deg, #43b050 0%, #247831 100%);
     color: #fff;
+    padding: 0 16px;
+    font-size: 0.82rem;
     font-weight: 900;
-    font-size: 0.76rem;
-    padding: 0 12px;
     white-space: nowrap;
-    border-left: 2px solid #144216;
 }
 
 .tab-content {
     display: none;
     flex: 1;
     min-height: 0;
+    border-radius: 14px;
+    border: 2px solid #7c4d25;
     overflow-y: auto;
     background-size: cover;
     background-position: center;
-    position: relative;
 }
-
 .tab-content.active { display: flex; flex-direction: column; }
 
 .bg-garden-tab {
-    background-image: linear-gradient(rgba(20, 14, 8, 0.42), rgba(20, 14, 8, 0.52)), url('assets/bg_garden.jpg');
+    background-image: linear-gradient(rgba(25, 16, 8, 0.35), rgba(25, 16, 8, 0.45)), url('assets/bg_garden.jpg');
 }
 .bg-market-tab {
-    background-image: linear-gradient(rgba(20, 14, 8, 0.45), rgba(20, 14, 8, 0.55)), url('assets/bg_market.jpg');
+    background-image: linear-gradient(rgba(25, 16, 8, 0.38), rgba(25, 16, 8, 0.48)), url('assets/bg_market.jpg');
 }
 .bg-shelter-tab {
-    background-image: linear-gradient(rgba(20, 14, 8, 0.45), rgba(20, 14, 8, 0.55)), url('assets/bg_shelter.jpg');
+    background-image: linear-gradient(rgba(25, 16, 8, 0.38), rgba(25, 16, 8, 0.48)), url('assets/bg_shelter.jpg');
 }
 
 .tab-inner {
     flex: 1;
-    min-height: 0;
-    padding: 10px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 820px;
-    width: 100%;
-    margin: 0 auto;
 }
 
 /* BAHÇE (3x3) */
 .garden-layout {
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 16px;
 }
 
-.garden-controls {
-    background: rgba(45, 25, 12, 0.9);
-    border: 2px solid var(--wood-light);
-    border-radius: 14px;
-    padding: 10px 12px;
-    width: 100%;
-    max-width: 420px;
+.garden-control-card {
+    width: 280px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 7px;
-    text-align: center;
+    gap: 8px;
 }
 
-.garden-controls h3 { font-size: 0.95rem; color: var(--cream); }
-.panel-hint { font-size: 0.72rem; color: var(--cream-dark); }
-
 .seed-toolbar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 6px;
 }
 
 .seed-btn {
-    background: var(--wood-mid);
-    color: var(--cream);
-    padding: 7px 4px;
+    background: var(--cream-soft);
+    color: var(--text-dark);
+    border: 2px solid var(--cream-border);
+    padding: 7px 10px;
     border-radius: 9px;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    border: 2px solid var(--wood-light);
+    text-align: left;
 }
-
 .seed-btn.selected {
-    background: var(--green);
-    border-color: #86efac;
+    background: #e9f9ec;
+    border-color: var(--green);
+    color: #14532d;
 }
 
 .garden-fert-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-size: 0.76rem;
     font-weight: 800;
-    color: #fde68a;
+    border-top: 1.5px dashed var(--cream-border);
+    padding-top: 7px;
 }
 
-.garden-grid-wrap {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
+.garden-grid-wrap { display: flex; justify-content: center; }
 
 .garden-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    width: min(82vw, 310px);
+    gap: 9px;
+    width: min(46vw, 310px);
 }
 
 .garden-plot {
     aspect-ratio: 1;
-    background: rgba(82, 50, 26, 0.88);
-    border: 2.5px dashed var(--cream-dark);
+    background: rgba(84, 52, 26, 0.9);
+    border: 2.5px dashed #ebd4ad;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -844,22 +1131,11 @@ button:active { transform: scale(0.96); }
     position: relative;
     box-shadow: var(--shadow);
 }
-
-.garden-plot.sprout {
-    border-style: solid;
-    border-color: #86efac;
-}
-
+.garden-plot.sprout { border-style: solid; border-color: #86efac; }
 .garden-plot.ready {
     border-style: solid;
     border-color: #facc15;
-    background: radial-gradient(circle, #365314 0%, #3f2814 100%);
-    animation: readyGlow 1.5s infinite alternate;
-}
-
-@keyframes readyGlow {
-    from { box-shadow: 0 0 4px #facc15; }
-    to { box-shadow: 0 0 14px #facc15; }
+    background: radial-gradient(circle, #3f6212 0%, #442b15 100%);
 }
 
 .garden-plot img {
@@ -870,10 +1146,7 @@ button:active { transform: scale(0.96); }
     object-fit: cover;
 }
 
-.plot-emoji {
-    font-size: 1.9rem;
-    z-index: 2;
-}
+.plot-emoji { font-size: 2rem; z-index: 2; }
 
 .plot-label {
     position: absolute;
@@ -881,103 +1154,90 @@ button:active { transform: scale(0.96); }
     left: 4px;
     right: 4px;
     text-align: center;
-    font-size: 0.6rem;
+    font-size: 0.62rem;
     background: rgba(0, 0, 0, 0.72);
     color: #fff;
-    padding: 2px 3px;
+    padding: 2px 4px;
     border-radius: 5px;
     font-weight: 800;
     z-index: 2;
 }
 
-/* PAZAR & NPC */
+/* PAZAR & BARNABY */
 .npc-banner {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(253, 242, 220, 0.95);
-    color: var(--text-dark);
-    border: 2.5px solid var(--wood-light);
-    border-radius: 14px;
-    padding: 8px 10px;
 }
 
 .npc-avatar {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--gold);
+    border: 2px solid var(--amber);
     flex-shrink: 0;
 }
 
-.npc-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.npc-text-wrap h3 { font-size: 0.9rem; }
-.npc-text-wrap p { font-size: 0.74rem; color: #5c3a21; font-weight: 600; }
+.npc-title-row { display: flex; align-items: center; gap: 8px; }
+.npc-text-wrap p { font-size: 0.76rem; color: var(--text-muted); font-weight: 600; }
 
 .discount-tag {
-    background: #16a34a;
+    background: var(--green);
     color: #fff;
     font-size: 0.66rem;
     font-weight: 900;
-    padding: 2px 7px;
+    padding: 2px 8px;
     border-radius: 99px;
 }
 
 .market-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 10px;
 }
 
 .market-card {
-    background: rgba(253, 242, 220, 0.96);
-    color: var(--text-dark);
-    border: 2.5px solid var(--wood-light);
+    background: var(--cream);
+    border: 2px solid var(--cream-border);
     border-radius: 12px;
-    padding: 10px 8px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
     text-align: center;
+    box-shadow: var(--shadow);
 }
+.market-card .mkt-icon { font-size: 1.8rem; }
+.market-card h5 { font-size: 0.84rem; }
+.market-card p { font-size: 0.74rem; color: var(--text-muted); font-weight: 700; }
 
-.market-card .mkt-icon { font-size: 1.7rem; }
-.market-card h5 { font-size: 0.8rem; }
-.market-card p { font-size: 0.7rem; color: #555; font-weight: 700; }
-
-/* KOMPOST & BARINAK KARTLARI */
-.center-panel {
-    justify-content: center;
+.barnaby-sell-card {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
 }
+
+/* KOMPOST & BARINAK */
+.center-panel { justify-content: center; align-items: center; }
 
 .feature-card {
-    background: rgba(253, 242, 220, 0.96);
-    color: var(--text-dark);
-    border: 3px solid var(--wood-light);
-    border-radius: 16px;
-    padding: 12px;
+    max-width: 540px;
     width: 100%;
-    max-width: 520px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    box-shadow: var(--shadow);
+    gap: 14px;
 }
 
 .feature-img {
-    width: 96px;
-    height: 96px;
+    width: 104px;
+    height: 104px;
     border-radius: 12px;
     object-fit: cover;
-    border: 2px solid var(--wood-light);
+    border: 2px solid var(--cream-border);
     flex-shrink: 0;
 }
 
@@ -987,51 +1247,44 @@ button:active { transform: scale(0.96); }
     flex-direction: column;
     gap: 7px;
 }
-
-.feature-body h3 { font-size: 0.95rem; }
-.feature-body p { font-size: 0.76rem; color: #4a2c11; font-weight: 600; }
+.feature-body p { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
 
 .badge-row { display: flex; gap: 6px; flex-wrap: wrap; }
-
-.stat-badge {
+.info-badge {
     background: var(--wood-mid);
     color: #fff;
     font-size: 0.72rem;
     font-weight: 800;
-    padding: 3px 8px;
+    padding: 3px 9px;
     border-radius: 7px;
 }
-.green-badge { background: var(--green); }
-.gold-badge { background: var(--gold); }
+.info-badge.green-b { background: var(--green); }
+.info-badge.gold-b { background: var(--amber); }
 
 .mini-progress {
     width: 100%;
-    height: 10px;
-    background: var(--cream-dark);
+    height: 9px;
+    background: #e5d2b3;
     border-radius: 99px;
     overflow: hidden;
 }
+.mini-progress-fill { height: 100%; background: var(--green); transition: width 0.2s ease; }
+.progress-cap { font-size: 0.68rem; font-weight: 800; color: var(--text-muted); }
 
-.mini-progress-fill {
-    height: 100%;
-    background: var(--green-bright);
-    transition: width 0.25s ease;
-}
-
-.progress-caption {
-    font-size: 0.68rem;
-    font-weight: 800;
-    color: #5c3a21;
+.compost-choice-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
 }
 
 /* =========================================================
-   5. MODALLAR & ÇİFT HATLI BAŞARIM ŞEMASI
+   6. MODALLAR & TAM BOY ŞEF GERİ SAYIMI
    ========================================================= */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.78);
+    background: rgba(20, 10, 4, 0.8);
     z-index: 5000;
     align-items: center;
     justify-content: center;
@@ -1039,12 +1292,82 @@ button:active { transform: scale(0.96); }
 }
 .modal.active { display: flex; }
 
+/* TAM BOY ŞEF GERİ SAYIM KARTI */
+.countdown-card {
+    background: var(--cream);
+    border: 4px solid var(--wood-light);
+    border-radius: 22px;
+    padding: 18px 22px;
+    width: min(92vw, 350px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.countdown-chef-frame {
+    width: min(56vw, 210px);
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 4px solid var(--amber);
+    background: #f5e6c8;
+    box-shadow: var(--shadow);
+}
+
+.countdown-chef-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.countdown-meta h2 { font-size: 1.1rem; color: var(--text-dark); }
+.uniform-badge {
+    display: inline-block;
+    margin-top: 2px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 2px 9px;
+    border-radius: 99px;
+    background: #e5d2b3;
+    color: var(--text-dark);
+}
+.uniform-badge.eco { background: #166534; color: #dcfce7; }
+
+.countdown-bubble {
+    background: #fff;
+    border: 2px solid var(--cream-border);
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 0.84rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.countdown-big-num {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--green);
+    text-shadow: 0 3px 0 #d9be94;
+    animation: popNum 0.35s ease;
+}
+
+@keyframes popNum {
+    0% { transform: scale(0.5); opacity: 0.3; }
+    70% { transform: scale(1.18); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 .modal-card {
     background: var(--cream);
     color: var(--text-dark);
-    border: 3.5px solid var(--wood-light);
+    border: 3px solid var(--wood-light);
     border-radius: 18px;
-    padding: 14px;
+    padding: 15px;
     width: 100%;
     max-width: 440px;
     max-height: 90dvh;
@@ -1052,21 +1375,19 @@ button:active { transform: scale(0.96); }
     display: flex;
     flex-direction: column;
     gap: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
 }
-
-.modal-wide { max-width: 660px; }
-.modal-sm { max-width: 340px; text-align: center; }
+.modal-wide { max-width: 680px; }
+.modal-sm { max-width: 330px; text-align: center; }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid var(--cream-dark);
+    border-bottom: 2px solid #e5d2b3;
     padding-bottom: 6px;
 }
-
-.modal-header h2 { font-size: 1rem; color: var(--wood-dark); }
+.modal-header h2 { font-size: 1rem; }
 .ach-score-sub { font-size: 0.76rem; font-weight: 800; color: var(--green); }
 
 .btn-close-modal {
@@ -1078,45 +1399,20 @@ button:active { transform: scale(0.96); }
     font-weight: 900;
 }
 
-/* ÇİFT HATLI TASLAK UYUMLU BAŞARIM YOLU */
-.ach-tracks-container {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
+/* ÇİFT HATLI BAŞARIMLAR */
+.ach-tracks-container { display: flex; flex-direction: column; gap: 14px; }
+.track-section h4 { font-size: 0.84rem; color: var(--wood-mid); margin-bottom: 6px; }
+.track-scroll { overflow-x: auto; padding-bottom: 6px; }
+.track-row { display: flex; align-items: center; width: max-content; padding: 4px 2px; }
 
-.track-section h4 {
-    font-size: 0.82rem;
-    color: var(--wood-mid);
-    margin-bottom: 6px;
-    font-weight: 800;
-}
-
-.track-scroll {
-    overflow-x: auto;
-    padding-bottom: 6px;
-}
-
-.track-row {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    padding: 4px 2px;
-}
-
-.track-connector {
-    width: 26px;
-    height: 7px;
-    background: var(--cream-dark);
-    flex-shrink: 0;
-}
-.track-connector.filled { background: var(--green-bright); }
+.track-connector { width: 24px; height: 7px; background: #e5d2b3; flex-shrink: 0; }
+.track-connector.filled { background: var(--green); }
 
 .track-node {
     background: #fff;
-    border: 2.5px solid #cbb692;
-    border-radius: 14px;
-    padding: 8px 7px;
+    border: 2.5px solid #d9be94;
+    border-radius: 13px;
+    padding: 7px;
     width: 112px;
     min-height: 92px;
     flex-shrink: 0;
@@ -1130,150 +1426,177 @@ button:active { transform: scale(0.96); }
     font-weight: 800;
     opacity: 0.72;
 }
+.track-node.unlocked { border-color: var(--green); background: #ecfdf5; opacity: 1; }
+.track-node.active-choice { border-color: var(--amber); background: #fef3c7; box-shadow: 0 0 0 2px #f59e0b; }
+.track-node img { width: 46px; height: 30px; border-radius: 6px; object-fit: cover; border: 1px solid var(--wood-light); }
+.track-node.recipe-node img { width: 34px; height: 34px; border-radius: 8px; }
+.node-pts { font-size: 0.62rem; color: var(--text-muted); }
+.node-tag { font-size: 0.6rem; padding: 1px 6px; border-radius: 6px; background: var(--green); color: #fff; }
+.node-tag.gold { background: var(--amber); }
 
-.track-node.unlocked {
-    border-color: var(--green);
-    background: #ecfdf5;
-    opacity: 1;
+/* KARAKTERLER REHBERİ */
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 8px;
 }
 
-.track-node.active-choice {
-    border-color: var(--gold);
-    background: #fef3c7;
-    box-shadow: 0 0 0 2px #f59e0b;
+.char-guide-card {
+    background: #fff;
+    border: 2px solid var(--cream-border);
+    border-radius: 12px;
+    padding: 9px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
 }
-
-.track-node img {
-    width: 44px;
-    height: 30px;
-    border-radius: 6px;
-    object-fit: cover;
-    border: 1px solid var(--wood-light);
-}
-
-.track-node.recipe-node img {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-}
-
-.node-pts {
-    font-size: 0.62rem;
-    color: #5c3a21;
-}
-
-.node-tag {
-    font-size: 0.6rem;
-    padding: 1px 6px;
-    border-radius: 6px;
-    background: var(--green);
-    color: #fff;
-}
-.node-tag.gold { background: var(--gold); }
+.char-guide-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--amber); }
+.char-guide-card h5 { font-size: 0.82rem; }
+.char-guide-card p { font-size: 0.68rem; color: var(--text-muted); font-weight: 700; }
 
 /* ÖZET & PAUSE */
-.summary-body {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
+.summary-body { display: flex; flex-direction: column; gap: 6px; }
 .summary-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #fff;
-    border: 1.5px solid var(--cream-dark);
+    border: 1.5px solid #e5d2b3;
     border-radius: 9px;
     padding: 7px 10px;
     font-size: 0.8rem;
     font-weight: 700;
 }
-
 .summary-line.highlight { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
 .summary-line.bonus { background: #dcfce7; border-color: #4ade80; color: #166534; }
-.summary-line.penalty { background: #fee2e2; border-color: #f87171; color: #991b1b; }
+.pause-buttons { display: flex; flex-direction: column; gap: 8px; }
 
-.pause-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* =========================================================
+   7. TELEFON YATAY (LANDSCAPE) TAM SIĞMA (max-height: 540px)
+   ========================================================= */
+@media (max-height: 540px) and (orientation: landscape) {
+    #startScreen { padding: 5px 10px; }
+    .start-container { gap: 6px; }
+    .start-banner { padding: 6px 12px; }
+    .start-banner h1 { font-size: 1.15rem; }
+    .start-banner p { font-size: 0.7rem; }
+    .slots-panel { padding: 5px 8px; }
+    .slot-card { min-height: 44px; padding: 4px 6px; }
+    .slot-avatar { width: 30px; height: 30px; }
+    .cream-card { padding: 8px 10px; }
+    .cream-card h3 { font-size: 0.84rem; margin-bottom: 5px; }
+    .nickname-input { padding: 5px 8px; margin-bottom: 6px; font-size: 0.82rem; }
+    .chef-pick-card img { max-width: 42px; }
+    .phil-card { padding: 5px 8px; }
+    .phil-title { font-size: 0.76rem; }
+    .phil-desc { font-size: 0.65rem; }
+    .green-cta-btn { padding: 7px 22px; font-size: 0.85rem; }
+
+    /* Oyun Ekranı Yatay Telefon: Klasik Düzen Birebir Tek Ekrana Sığar */
+    .game-header { padding: 3px 8px; }
+    #activeChefImg { width: 28px; height: 28px; }
+    #chefNameDisplay { font-size: 0.75rem; }
+    .hud-pill { padding: 2px 7px; font-size: 0.68rem; }
+    .cream-hud-btn { padding: 3px 7px; font-size: 0.68rem; }
+
+    .game-main-split { padding: 5px; gap: 6px; }
+    .sidebar-col { width: 185px; gap: 5px; }
+    .side-card { padding: 6px 8px; gap: 4px; }
+    .side-card h4 { font-size: 0.74rem; padding-bottom: 2px; }
+    .side-res-top, .waste-stat-line { font-size: 0.66rem; }
+    .res-track { height: 6px; }
+    .side-warn { font-size: 0.6rem; padding: 4px 6px; }
+
+    .view-container { gap: 5px; }
+    .ambiance-stage { padding: 5px 7px; }
+    .aroma-btn, .streak-banner, .pause-pill-btn { padding: 3px 8px; font-size: 0.64rem; }
+    .priority-hint { font-size: 0.58rem; padding: 1px 7px; }
+    .orders-container { gap: 6px; }
+    .order-card { padding: 4px 5px; gap: 3px; }
+    .order-dish-strip { padding: 2px 4px; gap: 4px; }
+    .dish-thumb { width: 18px; height: 18px; }
+    .order-dish-name { font-size: 0.64rem; }
+    .cust-thumb { width: 32px; height: 32px; }
+    .order-cust-name { font-size: 0.62rem; }
+    .order-patience-bar { height: 5px; }
+
+    .kitchen-menu-box { padding: 5px 7px; gap: 4px; }
+    .kitchen-menu-header { font-size: 0.66rem; }
+    .recipe-grid { gap: 4px; }
+    .recipe-btn { min-height: 48px; padding: 3px; }
+    .recipe-btn img { width: 20px; height: 20px; }
+    .recipe-name { font-size: 0.6rem; }
+    .recipe-cost { font-size: 0.55rem; }
+    .prep-tag { font-size: 0.5rem; }
+
+    /* Akşam Bahçe Yatay Telefon */
+    .garden-control-card { width: 215px; }
+    .garden-grid { width: min(calc(100dvh - 108px), 230px); gap: 5px; }
+    .plot-emoji { font-size: 1.4rem; }
+
+    /* Geri sayım kartı yatay telefona sığsın */
+    .countdown-card { padding: 10px 18px; gap: 5px; }
+    .countdown-chef-frame { width: min(36dvh, 135px); }
+    .countdown-big-num { font-size: 2.1rem; }
 }
 
 /* =========================================================
-   6. TELEFON DİKEY OPTİMİZASYONU (max-width: 520px)
+   8. TELEFON DİKEY (PORTRAIT) TAM SIĞMA (max-width: 740px)
    ========================================================= */
-@media (max-width: 520px) {
+@media (max-width: 740px) and (orientation: portrait) {
+    .setup-grid { grid-template-columns: 1fr; }
     .btn-label { display: none; }
-    .chef-cards { grid-template-columns: repeat(5, minmax(66px, 1fr)); }
-    .chef-card img { width: 44px; height: 44px; }
+    .hud-center-pills { gap: 3px; }
+    .hud-pill { padding: 3px 6px; font-size: 0.66rem; }
+    #chefNameDisplay { max-width: 72px; font-size: 0.74rem; }
+
+    /* Sağ paneli dikeyde gizle, yerine ince stok şeridini aç */
+    .sidebar-col { display: none; }
+    .mobile-reserve-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: var(--cream);
+        border: 2px solid var(--cream-border);
+        border-radius: 10px;
+        padding: 5px 8px;
+        flex-shrink: 0;
+    }
+    .m-res { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 800; }
+
+    .game-main-split { padding: 6px; }
+    .ambiance-stage { flex: 0 0 42%; padding: 6px; }
+    .aroma-btn, .streak-banner, .pause-pill-btn { font-size: 0.62rem; padding: 4px 7px; }
+    .orders-container { gap: 5px; }
+    .order-card { padding: 4px; gap: 3px; }
+    .cust-thumb { width: 36px; height: 36px; }
+    .order-dish-name, .order-cust-name { font-size: 0.62rem; }
+
+    .kitchen-menu-box { flex: 1; min-height: 0; }
+    .recipe-grid {
+        grid-template-columns: repeat(2, 1fr);
+        overflow-y: auto;
+        flex: 1;
+        align-content: start;
+    }
+    .recipe-btn {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 7px;
+        min-height: 54px;
+        padding: 6px 8px;
+    }
+    .recipe-btn img { width: 32px; height: 32px; }
+
+    .garden-layout { flex-direction: column; }
+    .garden-control-card { width: 100%; }
+    .seed-toolbar { flex-direction: row; }
+    .seed-btn { flex: 1; text-align: center; font-size: 0.68rem; padding: 6px 3px; }
+    .garden-grid { width: min(84vw, 290px); }
     .market-grid { grid-template-columns: 1fr; }
     .feature-card { flex-direction: column; text-align: center; }
     .badge-row { justify-content: center; }
-    .tab-btn { font-size: 0.68rem; }
-    .btn-start-shift-compact { font-size: 0.7rem; padding: 0 8px; }
-}
-
-/* =========================================================
-   7. TELEFON YATAY (LANDSCAPE) OPTİMİZASYONU (max-height: 520px)
-   ========================================================= */
-@media (max-height: 520px) and (orientation: landscape) {
-    /* Giriş ekranı yatayda tek ekrana tam sığsın */
-    #startScreen { padding: 6px 14px; }
-    .start-main { gap: 8px; }
-    .start-logo { width: 42px; height: 42px; }
-    .logo-area h1 { font-size: 1.25rem; }
-    .character-select-wrapper h3 { margin-bottom: 4px; font-size: 0.8rem; }
-    .chef-card { padding: 5px 4px; gap: 3px; }
-    .chef-card img { width: 40px; height: 40px; }
-    .start-cta { padding: 8px 24px; font-size: 0.9rem; }
-
-    /* HUD ince satır */
-    .game-header { padding: 3px 8px; }
-    #activeChefImg { width: 30px; height: 30px; }
-    .stat-pill { padding: 3px 6px; font-size: 0.7rem; }
-
-    /* Mesai: Sol %54 Restoran + Müşteriler, Sağ %46 Stok + Tarifler */
-    .shift-layout { flex-direction: row; }
-    .stage-column { flex: 0 0 54%; height: 100%; }
-    .ambiance-stage { border-bottom: none; border-right: 3px solid var(--wood-light); }
-    .kitchen-column { flex: 1; height: 100%; padding: 5px 6px; gap: 4px; }
-    .cust-thumb, .dish-thumb { width: 28px; height: 28px; }
-    .order-card { padding: 4px; }
-    .recipe-btn { padding: 4px 5px; }
-    .recipe-btn img { width: 28px; height: 28px; }
-
-    /* Akşam Bahçesi yatayda yan yana: Solda kontroller, sağda 3x3 bahçe */
-    .garden-layout {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-    }
-    .garden-controls { max-width: 280px; }
-    .garden-grid-wrap { width: auto; }
-    .garden-grid { width: min(calc(100dvh - 108px), 255px); gap: 5px; }
-    .plot-emoji { font-size: 1.35rem; }
-
-    /* Pazar ve Kompost yatay kompakt */
-    .npc-avatar { width: 40px; height: 40px; }
-    .market-card { padding: 6px; gap: 3px; }
-    .market-card .mkt-icon { font-size: 1.3rem; }
-    .feature-card { padding: 9px; }
-    .feature-img { width: 76px; height: 76px; }
-}
-
-/* =========================================================
-   8. TABLET & GENİŞ EKRAN (min-width: 768px & min-height: 521px)
-   ========================================================= */
-@media (min-width: 768px) and (min-height: 521px) {
-    .shift-layout { flex-direction: row; }
-    .stage-column { flex: 0 0 56%; height: 100%; }
-    .ambiance-stage { border-bottom: none; border-right: 3px solid var(--wood-light); padding: 12px; }
-    .kitchen-column { flex: 1; padding: 10px; gap: 10px; }
-    .cust-thumb, .dish-thumb { width: 44px; height: 44px; }
-    .recipe-grid { gap: 8px; }
-    .recipe-btn { padding: 9px; }
-    .recipe-btn img { width: 42px; height: 42px; }
-    .garden-grid { width: 350px; gap: 10px; }
+    .mgmt-tab { font-size: 0.68rem; padding: 9px 2px; }
+    .green-shift-btn { font-size: 0.72rem; padding: 0 10px; }
 }
