@@ -1,320 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Zero-Waste Bistro: Circular Kitchen</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Zero-Waste Bistro: Circular Kitchen</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="toast-container"></div>
+    <audio id="bgMusic" src="assets/shift_music.mp3" loop preload="auto"></audio>
+    <div id="toast-container"></div>
 
-  <!-- ================= ONBOARDING / START SCREEN ================= -->
-  <section id="screen-onboarding" class="screen active">
-    <div class="onboard-wrapper">
-      <header class="game-banner">
-        <h1>🌿 Zero-Waste Bistro</h1>
-        <p class="subtitle">Circular Gastronomy &amp; Sustainable Kitchen Tycoon</p>
-      </header>
-
-      <div class="onboard-grid">
-        <!-- Left Panel: Nickname & Avatar -->
-        <div class="wood-card">
-          <h2>1. Chef Identity</h2>
-          <label for="input-nickname" class="field-label">Player Nickname</label>
-          <input type="text" id="input-nickname" maxlength="16" placeholder="e.g. Chef Fethi" value="Chef Fethi" />
-
-          <span class="field-label">Choose Chef Avatar</span>
-          <div id="avatar-grid" class="choice-grid">
-            <button type="button" class="choice-card selected" data-avatar="classic">
-              <img src="assets/chef_classic.jpg" alt="Classic Culinary Chef" />
-              <strong>Classic Chef</strong>
-            </button>
-            <button type="button" class="choice-card" data-avatar="eco">
-              <img src="assets/chef_eco.jpg" alt="Eco-Gardener Chef" />
-              <strong>Eco-Gardener</strong>
-            </button>
-            <button type="button" class="choice-card" data-avatar="artisan">
-              <img src="assets/chef_artisan.jpg" alt="Modern Artisan Chef" />
-              <strong>Modern Artisan</strong>
-            </button>
-          </div>
-        </div>
-
-        <!-- Right Panel: Starting Preference -->
-        <div class="wood-card">
-          <h2>2. Starting Philosophy</h2>
-          <p class="hint-text">Choose how your bistro fights food waste:</p>
-          <div id="perk-grid" class="perk-list">
-            <button type="button" class="perk-card selected" data-perk="compost">
-              <div class="perk-title">🌱 Compost Master</div>
-              <div class="perk-desc">Start with 2 ready Fertilizers &amp; +1 bonus Produce per harvest.</div>
-            </button>
-            <button type="button" class="perk-card" data-perk="shelter">
-              <div class="perk-title">🐾 Shelter Hero</div>
-              <div class="perk-desc">Earn +25% bonus Reputation Score from every Shelter donation.</div>
-            </button>
-            <button type="button" class="perk-card" data-perk="bargainer">
-              <div class="perk-title">🧺 Local Bargainer</div>
-              <div class="perk-desc">Get a permanent 15% discount at Old Barnaby's Farm Market.</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="onboard-footer">
-        <button id="btn-start-game" class="btn-primary-green">▶ Start New Bistro</button>
-        <button id="btn-continue-game" class="btn-secondary-amber hidden">↺ Continue Saved Game</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= MAIN GAME SCREEN ================= -->
-  <section id="screen-game" class="screen">
-    <!-- Top HUD -->
-    <header class="top-hud">
-      <div class="hud-profile">
-        <img id="hud-avatar" src="assets/chef_classic.jpg" alt="Chef" />
-        <div>
-          <div id="hud-nickname" class="hud-name">Chef</div>
-          <div id="hud-phase-badge" class="phase-pill">DAY SHIFT</div>
-        </div>
-      </div>
-
-      <div class="hud-stats">
-        <div class="stat-pill">📅 Day <strong id="hud-day">1</strong></div>
-        <div class="stat-pill timer-pill">⏱ <strong id="hud-timer">01:00</strong></div>
-        <div class="stat-pill money-pill">💰 $<strong id="hud-money">100</strong></div>
-        <div class="stat-pill score-pill">⭐ <strong id="hud-score">0</strong></div>
-        <div class="stat-pill streak-pill" title="Zero-Waste Day Streak">🔥 <strong id="hud-streak">0</strong></div>
-      </div>
-
-      <div class="hud-actions">
-        <button id="btn-open-milestones" class="btn-hud">🏆 Milestones</button>
-        <button id="btn-open-cast" class="btn-hud">📖 Characters</button>
-      </div>
-    </header>
-
-    <!-- Main 2-Column Workspace -->
-    <main class="game-layout">
-      <!-- LEFT: ACTIVE SCENE -->
-      <div class="main-stage">
-
-        <!-- PHASE 1: 60-SECOND RESTAURANT SHIFT -->
-        <div id="phase-restaurant" class="scene-container">
-          <div id="restaurant-bg" class="scene-bg"></div>
-
-          <div class="scene-content restaurant-layout">
-            <!-- Power-ups & Combo Bar -->
-            <div class="powerup-bar">
-              <button id="btn-power-patience" class="btn-power">
-                🍵 Patience Aroma (<span id="patience-cost">$30</span>)
-              </button>
-              <div id="rush-indicator" class="rush-badge">
-                ⚡ Streak: <strong id="combo-count">0</strong>/5 (2x Score)
-              </div>
-              <button id="btn-pause" class="btn-small-dark">⏸ Pause</button>
+    <!-- 1. GİRİŞ & DİL SEÇİM EKRANI -->
+    <div id="startScreen" class="screen active">
+        <div class="start-top-bar">
+            <button onclick="resetSaveData()" class="reset-btn" id="uiResetBtn">Sıfırla</button>
+            <div class="lang-selector">
+                <button onclick="setLanguage('tr')" class="lang-btn active" id="langTrBtn">TR</button>
+                <button onclick="setLanguage('en')" class="lang-btn" id="langEnBtn">EN</button>
             </div>
-
-            <!-- Active Customers Counter -->
-            <div id="customers-row" class="customers-row"></div>
-
-            <!-- Cooking & Serving Menu Counter -->
-            <div class="kitchen-panel">
-              <div class="kitchen-header">
-                <span>🍳 Kitchen Menu — Tap a dish to cook &amp; serve</span>
-                <span class="waste-mini">
-                  🥬 Scraps: <strong id="shift-scraps-count">0</strong> |
-                  📦 Leftovers: <strong id="shift-leftovers-count">0</strong>
-                </span>
-              </div>
-              <div id="menu-grid" class="menu-grid"></div>
-            </div>
-          </div>
         </div>
 
-        <!-- PHASE 2: EVENING MANAGEMENT (GARDEN / MARKET / SHELTER) -->
-        <div id="phase-evening" class="scene-container hidden">
-          <nav class="evening-tabs">
-            <button class="tab-btn active" data-tab="garden">🌱 Garden &amp; Compost</button>
-            <button class="tab-btn" data-tab="market">🚜 Farm Market</button>
-            <button class="tab-btn" data-tab="shelter">🐾 Shelter Donation</button>
-          </nav>
-
-          <!-- TAB 1: GARDEN & COMPOST -->
-          <div id="tab-garden" class="evening-tab active">
-            <div class="scene-bg bg-garden"></div>
-            <div class="scene-content garden-layout">
-              <!-- Compost Bin Column -->
-              <div class="compost-panel wood-panel">
-                <h3>♻️ Compost Bin</h3>
-                <img src="assets/obj_compost.jpg" alt="Compost Bin" class="compost-img" />
-                <p class="small-info">Organic Scraps: <strong id="garden-scraps-count">0</strong></p>
-                <div class="mini-progress">
-                  <div id="compost-progress-fill" class="mini-progress-fill"></div>
-                </div>
-                <p id="compost-progress-text" class="tiny-info">0 / 5 scraps to next Fertilizer</p>
-                <button id="btn-dump-compost" class="btn-action-green">Dump Scraps to Compost</button>
-
-                <div class="fert-box">
-                  <span>🌿 Fertilizer: <strong id="fertilizer-count">0</strong></span>
-                  <button id="btn-use-fertilizer" class="btn-action-amber">Use Fertilizer Mode: OFF</button>
-                  <button id="btn-golden-compost" class="btn-golden hidden">✨ Use Golden Compost</button>
-                </div>
-              </div>
-
-              <!-- 3x3 Garden Plots Column -->
-              <div class="plots-panel wood-panel">
-                <div class="seed-toolbar" id="seed-toolbar">
-                  <button class="seed-btn selected" data-seed="carrot">🥕 Carrot ($10)</button>
-                  <button class="seed-btn" data-seed="lettuce">🥬 Lettuce ($10)</button>
-                  <button class="seed-btn" data-seed="tomato">🍅 Tomato ($10)</button>
-                  <button class="seed-btn" data-seed="apple">🍎 Apple ($15)</button>
-                </div>
-                <p class="tiny-info center-text">Tap empty soil to plant. Mature crops yield +15 free Produce!</p>
-                <div id="garden-grid" class="garden-grid"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 2: FARM MARKET -->
-          <div id="tab-market" class="evening-tab">
-            <div class="scene-bg bg-market"></div>
-            <div class="scene-content market-layout">
-              <div class="npc-banner wood-panel">
-                <img src="assets/npc_barnaby.jpg" alt="Old Barnaby" class="npc-portrait" />
+        <div class="start-main">
+            <div class="logo-area">
+                <img src="assets/app_logo.jpg" alt="Logo" class="start-logo">
                 <div>
-                  <h3>Old Barnaby's Farm Market <span id="market-discount-badge" class="discount-tag hidden"></span></h3>
-                  <p id="barnaby-quote">"Fresh local ingredients! Buy only what your kitchen needs to prevent waste."</p>
+                    <h1 id="uiTitle">Zero-Waste Bistro</h1>
+                    <p id="uiSub">Döngüsel Mutfak Simülatörü</p>
                 </div>
-              </div>
-
-              <div class="market-cards">
-                <div class="shop-card">
-                  <div class="shop-icon">🥩</div>
-                  <h4>Meat &amp; Poultry</h4>
-                  <p>+25 Kitchen Reserve</p>
-                  <button id="btn-buy-meat" class="btn-action-green">Buy $35</button>
-                </div>
-                <div class="shop-card">
-                  <div class="shop-icon">🥛</div>
-                  <h4>Dairy &amp; Pantry</h4>
-                  <p>+25 Kitchen Reserve</p>
-                  <button id="btn-buy-dairy" class="btn-action-green">Buy $25</button>
-                </div>
-                <div class="shop-card">
-                  <div class="shop-icon">🥕</div>
-                  <h4>Veggie Crate</h4>
-                  <p>+25 Kitchen Reserve</p>
-                  <button id="btn-buy-veggie" class="btn-action-green">Buy $20</button>
-                </div>
-              </div>
             </div>
-          </div>
 
-          <!-- TAB 3: SHELTER DONATION -->
-          <div id="tab-shelter" class="evening-tab">
-            <div class="scene-bg bg-shelter"></div>
-            <div class="scene-content shelter-layout">
-              <div class="npc-banner wood-panel">
-                <img src="assets/npc_shelter.jpg" alt="Volunteer Clara" class="npc-portrait" />
+            <div class="character-select-wrapper">
+                <h3 id="uiSelectChef">Şefini Seç:</h3>
+                <div class="chef-cards" id="chefSelectGrid"></div>
+            </div>
+
+            <button class="primary-btn start-cta" onclick="startGame()" id="uiStartBtn">Oyuna Başla</button>
+        </div>
+    </div>
+
+    <!-- 2. ANA OYUN EKRANI -->
+    <div id="gameScreen" class="screen">
+        <header class="game-header">
+            <div class="hud-profile">
+                <img id="activeChefImg" src="assets/chef_classic.jpg" alt="Şef">
+                <div class="hud-profile-text">
+                    <span id="chefNameDisplay">Şef</span>
+                    <div class="hud-sub-row">
+                        <span id="dayDisplay" class="day-tag">Gün 1</span>
+                        <span id="hud-phase-badge" class="phase-pill">MESAİ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-stats">
+                <span class="stat-pill timer-pill" id="timerDisplay">00:30</span>
+                <span class="stat-pill money-pill" id="moneyDisplay">$100</span>
+                <span class="stat-pill score-pill" id="scoreDisplay">0 Pts</span>
+            </div>
+
+            <div class="hud-actions">
+                <button class="hud-btn" onclick="openAchievements()">🏆<span class="btn-label" id="uiBtnAch">Başarımlar</span></button>
+                <button class="hud-btn" onclick="toggleAudio()" id="muteHudBtn">🔊</button>
+                <button class="hud-btn" onclick="openPauseMenu()">⏸️</button>
+            </div>
+        </header>
+
+        <!-- A: GÜNDÜZ MESAİSİ (RESTORAN) -->
+        <div id="restaurantView" class="view-container active">
+            <div class="shift-layout">
+                <!-- Sol / Üst: Ambiyans + Müşteri Siparişleri -->
+                <div class="stage-column">
+                    <div class="ambiance-stage">
+                        <img id="ambianceImg" src="assets/bg_restaurant.jpg" alt="Restaurant">
+                        <div class="stage-overlay-top">
+                            <span id="uiPriorityLabel" class="priority-hint">🎯 Öncelik için müşteriye dokun</span>
+                            <span id="patienceAromaLabel" class="buff-pill hidden">🍵 Sabır Aroması</span>
+                        </div>
+                        <div class="orders-container" id="ordersContainer"></div>
+                    </div>
+                </div>
+
+                <!-- Sağ / Alt: Stok Barları + Mutfak Tarifleri -->
+                <div class="kitchen-column">
+                    <div class="reserve-strip">
+                        <div class="res-item">
+                            <span>🥩</span>
+                            <div class="res-track"><div class="res-fill" id="bar-meat"></div></div>
+                            <small id="val-meat">50</small>
+                        </div>
+                        <div class="res-item">
+                            <span>🥛</span>
+                            <div class="res-track"><div class="res-fill" id="bar-dairy"></div></div>
+                            <small id="val-dairy">50</small>
+                        </div>
+                        <div class="res-item">
+                            <span>🥦</span>
+                            <div class="res-track"><div class="res-fill" id="bar-produce"></div></div>
+                            <small id="val-produce">60</small>
+                        </div>
+                    </div>
+
+                    <div class="kitchen-station">
+                        <div class="kitchen-header">
+                            <span id="uiKitchenTitle">Mutfak Tezgahı</span>
+                            <span id="shiftLeftoverMini" class="leftover-mini">🍽️ 0</span>
+                        </div>
+                        <div class="recipe-grid" id="recipeGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- B: AKŞAM YÖNETİM PANELİ -->
+        <div id="managementView" class="view-container">
+            <div class="mgmt-top">
+                <div class="tabs">
+                    <button onclick="switchTab('garden')" class="tab-btn active" id="uiTabGarden">🌱 Bahçe</button>
+                    <button onclick="switchTab('market')" class="tab-btn" id="uiTabMarket">🚜 Pazar</button>
+                    <button onclick="switchTab('compost')" class="tab-btn" id="uiTabCompost">♻️ Kompost</button>
+                    <button onclick="switchTab('shelter')" class="tab-btn" id="uiTabShelter">❤️ Barınak</button>
+                </div>
+                <button class="btn-start-shift-compact" onclick="startShift()" id="uiNextShiftBtn">Mesaiye Başla ▶</button>
+            </div>
+
+            <!-- TAB 1: BAHÇE (3x3, Elmasız, bg_garden.jpg arka planlı) -->
+            <div id="gardenTab" class="tab-content active bg-garden-tab">
+                <div class="tab-inner garden-layout">
+                    <div class="garden-controls">
+                        <h3 id="uiGardenTitle">Arka Bahçe (3x3)</h3>
+                        <p id="uiGardenHint" class="panel-hint">Tohum seçip toprağa dokun. Ertesi gün hasat et!</p>
+                        <div class="seed-toolbar" id="seedToolbar"></div>
+                        <div class="garden-fert-row">
+                            <span id="gardenFertStatus">🌾 Gübre: 0</span>
+                            <button class="secondary-btn sm-btn" id="uiToggleFertilizerBtn" onclick="toggleFertilizerMode()">Gübre Modu: KAPALI</button>
+                        </div>
+                    </div>
+                    <div class="garden-grid-wrap">
+                        <div class="garden-grid" id="gardenGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: PAZAR -->
+            <div id="marketTab" class="tab-content bg-market-tab">
+                <div class="tab-inner">
+                    <div class="npc-banner">
+                        <img src="assets/npc_barnaby.jpg" alt="Barnaby" class="npc-avatar">
+                        <div class="npc-text-wrap">
+                            <div class="npc-title-row">
+                                <h3 id="uiMarketTitle">Çiftçi Barnaby Pazarı</h3>
+                                <span id="discountBadge" class="discount-tag hidden">-%25 VIP</span>
+                            </div>
+                            <p id="marketNpcText">Taze yerel malzemelerle mutfağını doldur!</p>
+                        </div>
+                    </div>
+
+                    <div class="reserve-strip light-strip">
+                        <div class="res-item">
+                            <span>🥩</span>
+                            <div class="res-track"><div class="res-fill" id="mkt-bar-meat"></div></div>
+                            <small id="mkt-val-meat">50</small>
+                        </div>
+                        <div class="res-item">
+                            <span>🥛</span>
+                            <div class="res-track"><div class="res-fill" id="mkt-bar-dairy"></div></div>
+                            <small id="mkt-val-dairy">50</small>
+                        </div>
+                        <div class="res-item">
+                            <span>🥦</span>
+                            <div class="res-track"><div class="res-fill" id="mkt-bar-produce"></div></div>
+                            <small id="mkt-val-produce">60</small>
+                        </div>
+                    </div>
+
+                    <div class="market-grid" id="marketGrid"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: KOMPOST -->
+            <div id="compostTab" class="tab-content bg-garden-tab">
+                <div class="tab-inner center-panel">
+                    <div class="feature-card">
+                        <img src="assets/obj_compost.jpg" alt="Compost" class="feature-img">
+                        <div class="feature-body">
+                            <h3 id="uiCompostTitle">Kompost İstasyonu</h3>
+                            <p id="uiCompostText">Mutfak atıklarını gübreye dönüştür, bahçede anında olgunlaştır!</p>
+                            <div class="badge-row">
+                                <span class="stat-badge" id="scrapsBadge">Organik Atık: 0</span>
+                                <span class="stat-badge green-badge" id="uiFertilizerCount">Gübre: 0 🌾</span>
+                            </div>
+                            <div class="mini-progress">
+                                <div class="mini-progress-fill" id="compostProgressFill" style="width: 0%;"></div>
+                            </div>
+                            <small id="compostProgressText" class="progress-caption">0 / 5</small>
+                            <button class="primary-btn full-btn" onclick="dumpScrapsToCompost()" id="uiDumpCompostBtn">Atıkları Komposta At (5 Atık = 1 Gübre)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: BARINAK -->
+            <div id="shelterTab" class="tab-content bg-shelter-tab">
+                <div class="tab-inner center-panel">
+                    <div class="feature-card">
+                        <img src="assets/npc_shelter.jpg" alt="Shelter" class="feature-img">
+                        <div class="feature-body">
+                            <h3 id="uiShelterTitle">Hayvan & İhtiyaç Barınağı</h3>
+                            <p id="uiShelterText">Mesai sonunda artan yemekleri israf etmeden barınağa bağışla.</p>
+                            <div class="badge-row">
+                                <span class="stat-badge gold-badge" id="leftoversBadge">Artan Yemek: 0 Tabak</span>
+                            </div>
+                            <button class="secondary-btn full-btn" onclick="donateLeftovers()" id="uiDonateBtn">Artan Yemekleri Bağışla (+150 Puan/Tabak)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MESAİ SONU ARTAN YEMEK & ÖZET MODALI -->
+    <div id="shiftSummaryModal" class="modal">
+        <div class="modal-card">
+            <h2 id="uiSummaryTitle">Mesai Sonu Raporu</h2>
+            <div id="summaryBody" class="summary-body"></div>
+            <button class="primary-btn full-btn" onclick="closeSummaryAndManage()" id="uiSummaryBtn">Akşam Yönetimine Geç</button>
+        </div>
+    </div>
+
+    <!-- 4. ÇİFT HATLI BAŞARIMLAR & AMBİYANS SEÇİM MODALI -->
+    <div id="achievementsModal" class="modal">
+        <div class="modal-card modal-wide">
+            <div class="modal-header">
                 <div>
-                  <h3>Community &amp; Animal Shelter — Clara</h3>
-                  <p id="clara-quote">"Thank you for sharing your unserved dishes! Nothing delicious goes to waste here."</p>
+                    <h2 id="uiAchTitle">Gelişim & Başarım Hatları</h2>
+                    <small id="achCurrentScore" class="ach-score-sub">Puan: 0</small>
                 </div>
-              </div>
-
-              <div class="shelter-box wood-panel">
-                <h4>📦 Packed Leftover Dishes Ready to Donate</h4>
-                <div class="big-counter"><span id="shelter-leftovers-count">0</span> Dishes</div>
-                <p class="small-info">Each donated dish awards <strong id="donation-pts-label">+150 Reputation Score</strong>.</p>
-                <button id="btn-donate-leftovers" class="btn-primary-green">❤️ Donate All Leftovers</button>
-              </div>
+                <button class="btn-close-modal" onclick="closeAchievements()">✕</button>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- RIGHT: RESERVES & DAY CONTROL SIDEBAR -->
-      <aside class="side-panel">
-        <div class="wood-card compact-card">
-          <h3>📦 Kitchen Reserves</h3>
+            <div class="ach-tracks-container">
+                <div class="track-section">
+                    <h4 id="uiRestTrack">🏠 Restoran Hattı (Ambiyans Seçmek İçin Tıkla)</h4>
+                    <div class="track-scroll">
+                        <div class="track-row" id="restaurantTrackNodes"></div>
+                    </div>
+                </div>
 
-          <div class="reserve-item">
-            <div class="reserve-label">
-              <span>🥩 Meat &amp; Poultry</span>
-              <strong id="val-meat">60 / 100</strong>
+                <div class="track-section">
+                    <h4 id="uiRecipeTrack">🍽️ Tarif Hattı</h4>
+                    <div class="track-scroll">
+                        <div class="track-row" id="recipeTrackNodes"></div>
+                    </div>
+                </div>
             </div>
-            <div class="reserve-bar"><div id="bar-meat" class="reserve-fill"></div></div>
-          </div>
-
-          <div class="reserve-item">
-            <div class="reserve-label">
-              <span>🥛 Dairy &amp; Eggs</span>
-              <strong id="val-dairy">60 / 100</strong>
-            </div>
-            <div class="reserve-bar"><div id="bar-dairy" class="reserve-fill"></div></div>
-          </div>
-
-          <div class="reserve-item">
-            <div class="reserve-label">
-              <span>🥦 Produce &amp; Veggies</span>
-              <strong id="val-produce">70 / 100</strong>
-            </div>
-            <div class="reserve-bar"><div id="bar-produce" class="reserve-fill"></div></div>
-          </div>
         </div>
-
-        <div class="wood-card compact-card">
-          <h3>♻️ Waste &amp; Zero-Waste</h3>
-          <div class="status-row"><span>Organic Scraps:</span> <strong id="side-scraps">0</strong></div>
-          <div class="status-row"><span>Leftover Dishes:</span> <strong id="side-leftovers">0</strong></div>
-          <div class="status-row"><span>Ready Fertilizer:</span> <strong id="side-fertilizer">0</strong></div>
-          <p class="tiny-warning">⚠️ Compost scraps &amp; donate leftovers before ending the day!</p>
-        </div>
-
-        <div id="end-day-box" class="end-day-box hidden">
-          <button id="btn-end-day" class="btn-end-day">
-            🌙 End Day
-            <small>Un-managed waste causes penalty!</small>
-          </button>
-        </div>
-      </aside>
-    </main>
-  </section>
-
-  <!-- ================= MODALS ================= -->
-  <!-- Daily Summary Modal -->
-  <div id="modal-summary" class="modal hidden">
-    <div class="modal-card">
-      <h2 id="summary-title">Day 1 Summary</h2>
-      <div id="summary-body" class="summary-body"></div>
-      <button id="btn-next-day" class="btn-primary-green">☀️ Start Next Day</button>
     </div>
-  </div>
 
-  <!-- Milestones Modal -->
-  <div id="modal-milestones" class="modal hidden">
-    <div class="modal-card modal-wide">
-      <div class="modal-header">
-        <h2>🏆 Milestones &amp; Unlocks (1,000 – 100,000 Pts)</h2>
-        <button class="btn-close-modal" data-close="modal-milestones">✕</button>
-      </div>
-      <div id="milestones-list" class="milestones-grid"></div>
+    <!-- 5. GELİŞMİŞ DURAKLATMA (PAUSE) MODALI -->
+    <div id="pauseModal" class="modal">
+        <div class="modal-card modal-sm">
+            <h2 id="uiPauseTitle">Oyun Duraklatıldı</h2>
+            <div class="pause-buttons">
+                <button class="primary-btn full-btn" onclick="resumeGame()" id="uiResumeBtn">Devam Et</button>
+                <button class="secondary-btn full-btn" onclick="toggleAudio()" id="uiAudioToggleBtn">Müzik: Açık 🔊</button>
+                <button class="danger-btn full-btn" onclick="returnToMainMenu()" id="uiMenuBtn">Ana Ekrana Dön</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Characters Modal -->
-  <div id="modal-cast" class="modal hidden">
-    <div class="modal-card modal-wide">
-      <div class="modal-header">
-        <h2>📖 Characters &amp; Backstories</h2>
-        <button class="btn-close-modal" data-close="modal-cast">✕</button>
-      </div>
-      <div id="cast-list" class="cast-grid"></div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
