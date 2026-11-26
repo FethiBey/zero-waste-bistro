@@ -1,52 +1,80 @@
 /* =========================================================
-   ZERO-WASTE BISTRO: CIRCULAR KITCHEN — v2.1 ENGINE
+   ZERO-WASTE BISTRO: CIRCULAR KITCHEN — v3.0 ENGINE
    ========================================================= */
 
-const SAVE_KEY = 'zw_bistro_v2_save';
+const SLOTS_KEY = 'zw_bistro_v3_slots';
+const MAX_SLOTS = 5;
+const MAX_RESERVE = 150;
+const COMPOST_SELL_PRICE = 20;
+const COMPOST_SELL_POINTS = 75;
+const AROMA_COST = 30;
 
 const TRANSLATIONS = {
     tr: {
-        title: "Zero-Waste Bistro",
-        sub: "Döngüsel Mutfak Simülatörü",
-        selectChef: "Şefini Seç:",
-        startBtn: "Oyuna Başla",
-        continueBtn: "Kaldığın Yerden Devam Et",
-        resetBtn: "Sıfırla",
-        resetConfirm: "Kayıtlı ilerlemen sıfırlansın mı?",
-        resetDone: "Oyun kaydı sıfırlandı!",
+        title: "🌿 Zero-Waste Bistro",
+        sub: "Döngüsel Gastronomi & Sürdürülebilir Mutfak Simülatörü",
+        slotsTitle: "💾 Oyun Kayıtları (5 Slot)",
+        slotsHint: "Yeni oyun için boş slota, devam etmek için kayıtlı slota tıkla",
+        emptySlotLabel: "+ Boş Kayıt",
+        slotPrefix: "Slot",
+        deleteConfirm: "Bu kayıt slotu kalıcı olarak silinsin mi?",
+        deletedToast: "Kayıt slotu silindi.",
+        step1Title: "1. Şef Kimliği",
+        nicknameLabel: "Oyuncu Adı",
+        selectChef: "Şef Avatarı Seç",
+        step2Title: "2. Başlangıç Güçlendirmesi",
+        philosophySub: "Bistronun gıda israfıyla nasıl savaşacağını seç:",
+        startNewBtn: "▶ Yeni Bistro Başlat",
+        continueSlotBtn: "▶ Kayıtlı Oyuna Devam Et",
+        defaultName: "Chef Fethi",
         dayPrefix: "Gün",
-        phaseShift: "MESAİ",
-        phaseEvening: "AKŞAM",
+        phaseShift: "GÜNDÜZ MESAİSİ",
+        phaseEvening: "AKŞAM HAZIRLIĞI",
         btnAch: "Başarımlar",
+        btnChars: "Karakterler",
+        aromaBtn: "💧 Sabır Aroması ($30)",
+        aromaActive: "💧 Aroma Aktif!",
+        pauseBtn: "⏸️ Duraklat",
         priorityLabel: "🎯 Öncelik için müşteriye dokun",
-        aromaBadge: "🍵 Sabır Aroması",
-        kitchenTitle: "Mutfak Tezgahı",
+        kitchenTitle: "🍳 Mutfak Menüsü — Pişirmek için yemeğe dokun",
+        scrapsShort: "Atık",
+        leftoversShort: "Artan",
         tabGarden: "🌱 Bahçe",
         tabMarket: "🚜 Pazar",
         tabCompost: "♻️ Kompost",
         tabShelter: "❤️ Barınak",
-        nextShiftBtn: "Mesaiye Başla ▶",
-        gardenTitle: "Arka Bahçe (3x3)",
+        nextShiftBtn: "▶ Mesaiye Başla",
+        gardenTitle: "🌱 Arka Bahçe (3x3)",
         gardenHint: "Tohum seçip toprağa dokun. Ertesi gün hasat et!",
-        marketTitle: "Çiftçi Barnaby Pazarı",
+        marketTitle: "Çiftçi Barnaby'nin Pazarı",
         marketNpc: "Taze yerel malzemeler al veya kompostunu Barnaby'ye sat!",
-        compostTitle: "Kompost İstasyonu",
-        compostText: "Atıkları komposta dönüştür; ister bahçede gübre yap, ister Pazarda Çiftçi Barnaby'ye sat!",
+        compostTitle: "♻️ Kompost İstasyonu",
+        compostText: "Atıkları komposta çevir; ister bahçede gübre yap, ister Pazarda Barnaby'ye sat!",
         dumpCompostBtn: "Atıkları Komposta At (5 Atık = 1 Kompost)",
-        shelterTitle: "Hayvan & İhtiyaç Barınağı",
+        shelterTitle: "❤️ Hayvan & İhtiyaç Barınağı",
         shelterText: "Mesai sonunda artan yemekleri israf etmeden barınağa bağışla.",
-        donateBtn: "Artan Yemekleri Bağışla (+150 Puan/Tabak)",
+        donateBtn: "Artan Yemekleri Bağışla",
+        reservesTitle: "📦 Mutfak Stokları",
+        meatLabel: "🥩 Et & Tavuk",
+        dairyLabel: "🥛 Süt & Yumurta",
+        produceLabel: "🥦 Sebze & Yeşillik",
+        wasteTitle: "♻️ Atık & Sıfır İsraf",
+        sideScrapsLabel: "Organik Atık:",
+        sideLeftoversLabel: "Artan Yemek:",
+        sideFertLabel: "Hazır Kompost:",
+        sideWarn: "⚠️ Günü bitirmeden atıkları kompostla ve artan yemekleri bağışla!",
         summaryTitle: "Mesai Sonu Raporu",
         summaryBtn: "Akşam Yönetimine Geç",
         achTitle: "Gelişim & Başarım Hatları",
         restTrack: "🏠 Restoran Hattı (Ambiyans Seçmek İçin Tıkla)",
         recipeTrack: "🍽️ Tarif Hattı",
+        charsTitle: "📖 Müşteri & Karakter Rehberi",
         pauseTitle: "Oyun Duraklatıldı",
         resumeBtn: "Devam Et",
         audioOn: "Müzik: Açık 🔊",
         audioOff: "Müzik: Kapalı 🔇",
-        menuBtn: "Ana Ekrana Dön",
-        fertCount: "Kompost",
+        menuBtn: "Ana Ekrana Dön (Slotlara)",
+        fertCount: "Hazır Kompost",
         fertModeOn: "Gübre Modu: AÇIK 🌾",
         fertModeOff: "Gübre Modu: KAPALI",
         scrapsLabel: "Organik Atık",
@@ -55,19 +83,21 @@ const TRANSLATIONS = {
         emptyPlot: "Boş Toprak",
         sproutPlot: "Filizlendi",
         readyPlot: "Hasat Et!",
-        plantToast: "🌱 Tohum ekildi! Ertesi gün hasada hazır olacak.",
-        fertilizedToast: "🌾 Kompost uygulandı! Bitki anında olgunlaştı (+Bonus).",
+        plantToast: "🌱 Tohum ekildi! Ertesi gün hasada hazır.",
+        fertilizedToast: "🌾 Kompost uygulandı! Anında olgunlaştı (+Bonus).",
         harvestToast: "🧺 Hasat edildi!",
         noMoney: "Yetersiz bakiye!",
         noStock: "Malzeme yetersiz! Akşam pazardan al veya bahçeden hasat et.",
+        alreadyCooking: "🔥 Bu yemek şu an ocakta pişiyor!",
         noScraps: "En az 5 organik atık gerekiyor!",
-        noCompost: "Elinde kompost yok! Önce Kompost sekmesinden üret.",
+        noCompost: "Elinde hazır kompost yok!",
         compostSuccess: "♻️ 1 Kompost üretildi! (+50 Puan)",
         noLeftovers: "Bağışlanacak artan yemek yok.",
         donateSuccess: "❤️ Barınağa bağışlandı!",
-        leftoverCreated: "🍽️ Sipariş dışı yemek: Artan Yemek olarak ayrıldı!",
-        missedOrder: "😠 Müşteri bekleyemedi! -80 Puan",
-        aromaTriggered: "🍵 Bitki çayı aroması müşteri sabrını 6 sn dondurdu!",
+        leftoverCreated: "🍽️ Sipariş dışı yemek artan olarak ayrıldı!",
+        missedOrder: "😠 Müşteri bekleyemedi! Seri sıfırlandı (-80 Puan)",
+        aromaTriggered: "💧 Sabır Aroması aktif! Müşteri sabrı 10 sn donduruldu!",
+        teaAromaTriggered: "🍵 Bitki çayı aroması müşteri sabrını 6 sn dondurdu!",
         buyBtn: "Satın Al",
         boughtToast: "🚜 Tedarik tamam!",
         barnabySellTitle: "♻️ Barnaby'ye Kompost Sat",
@@ -80,61 +110,93 @@ const TRANSLATIONS = {
         statsServed: "Servis Edilen Sipariş",
         statsEarnings: "Mesai Kazancı",
         statsScraps: "Çıkan Organik Atık",
-        statsSurplus: "Artan Yemek (Bağışa Hazır)",
-        statsNightNote: "Akşam panelinde atıkları kompostla, artan yemekleri barınağa bağışla!",
-        overnightPenalty: "⚠️ Gece kalan atık/yemek cezası",
+        statsAutoSurplus: "Gün Sonu Kalan Tencere Yemeği",
+        statsTotalSurplus: "Barınağa Hazır Toplam Artan",
+        statsNightNote: "Akşam panelinde atıkları kompostla ve artan yemekleri barınağa bağışla!",
+        overnightPenalty: "⚠️ Gece bırakılan atık/yemek cezası",
         overnightBonus: "🌿 Kusursuz Sıfır Atık Günü Bonusu",
         unlockedTag: "Açık",
         selectTag: "Seç",
         activeTag: "★ Aktif",
-        lockedTag: "Kilitli",
+        lockedShort: "Kilitli",
         ambChanged: "Ambiyans değiştirildi:",
-        ecoUnlocked: "🌿 50.000 Puan! Siyah Eco-Friendly Şef Üniformaları açıldı!",
+        ecoUnlocked: "🌿 50.000 Puan! Siyah Eco-Friendly Şef Üniforması açıldı!",
         ptsUnit: "Puan",
-        targetTag: "🎯 Hedef"
+        targetTag: "🎯 Öncelik",
+        streakLabel: "Seri",
+        doubleScore: "2x Puan",
+        uniformClassic: "Klasik Beyaz Üniforma",
+        uniformEco: "🌿 Siyah Eko-Dostu Üniforma",
+        cdLines: ["Önlükler hazır, malzemeler taze!", "Ocaklar yandı, sıfır atık başlasın!", "Kapılar açılıyor, iyi servisler!"],
+        cdGo: "BAŞLA!",
+        patienceText: "Sabır",
+        favsText: "Favoriler"
     },
     en: {
-        title: "Zero-Waste Bistro",
-        sub: "Circular Kitchen Simulator",
-        selectChef: "Choose Your Chef:",
-        startBtn: "Start Game",
-        continueBtn: "Continue Game",
-        resetBtn: "Reset",
-        resetConfirm: "Reset all saved progress?",
-        resetDone: "Save data reset!",
+        title: "🌿 Zero-Waste Bistro",
+        sub: "Circular Gastronomy & Sustainable Kitchen Tycoon",
+        slotsTitle: "💾 Save Slots (5 Careers)",
+        slotsHint: "Tap an empty slot to start new, or a saved slot to continue",
+        emptySlotLabel: "+ Empty Slot",
+        slotPrefix: "Slot",
+        deleteConfirm: "Permanently delete this save slot?",
+        deletedToast: "Save slot deleted.",
+        step1Title: "1. Chef Identity",
+        nicknameLabel: "Player Nickname",
+        selectChef: "Choose Chef Avatar",
+        step2Title: "2. Starting Philosophy",
+        philosophySub: "Choose how your bistro fights food waste:",
+        startNewBtn: "▶ Start New Bistro",
+        continueSlotBtn: "▶ Continue Saved Bistro",
+        defaultName: "Chef Fethi",
         dayPrefix: "Day",
-        phaseShift: "SHIFT",
-        phaseEvening: "EVENING",
-        btnAch: "Tracks",
+        phaseShift: "DAY SHIFT",
+        phaseEvening: "EVENING PREP",
+        btnAch: "Milestones",
+        btnChars: "Characters",
+        aromaBtn: "💧 Patience Aroma ($30)",
+        aromaActive: "💧 Aroma Active!",
+        pauseBtn: "⏸️ Pause",
         priorityLabel: "🎯 Tap customer to prioritize",
-        aromaBadge: "🍵 Patience Aroma",
-        kitchenTitle: "Kitchen Counter",
+        kitchenTitle: "🍳 Kitchen Menu — Tap a dish to cook & serve",
+        scrapsShort: "Scraps",
+        leftoversShort: "Leftovers",
         tabGarden: "🌱 Garden",
         tabMarket: "🚜 Market",
         tabCompost: "♻️ Compost",
         tabShelter: "❤️ Shelter",
-        nextShiftBtn: "Start Shift ▶",
-        gardenTitle: "Backyard Garden (3x3)",
+        nextShiftBtn: "▶ Start Shift",
+        gardenTitle: "🌱 Backyard Garden (3x3)",
         gardenHint: "Pick a seed and tap soil. Harvest the next day!",
-        marketTitle: "Farmer Barnaby's Market",
+        marketTitle: "Old Barnaby's Farm Market",
         marketNpc: "Buy fresh local goods or sell your compost to Barnaby!",
-        compostTitle: "Compost Station",
-        compostText: "Turn scraps into compost — use it in your garden or sell it to Farmer Barnaby!",
+        compostTitle: "♻️ Compost Station",
+        compostText: "Turn scraps into compost — use in Garden or sell to Farmer Barnaby!",
         dumpCompostBtn: "Compost Scraps (5 Scraps = 1 Compost)",
-        shelterTitle: "Animal & Food Shelter",
+        shelterTitle: "❤️ Community & Animal Shelter",
         shelterText: "Donate surplus plates at the end of your shift instead of wasting them.",
-        donateBtn: "Donate Surplus (+150 Pts/Plate)",
+        donateBtn: "Donate Surplus Dishes",
+        reservesTitle: "📦 Kitchen Reserves",
+        meatLabel: "🥩 Meat & Poultry",
+        dairyLabel: "🥛 Dairy & Eggs",
+        produceLabel: "🥦 Produce & Veggies",
+        wasteTitle: "♻️ Waste & Zero-Waste",
+        sideScrapsLabel: "Organic Scraps:",
+        sideLeftoversLabel: "Leftover Dishes:",
+        sideFertLabel: "Ready Compost:",
+        sideWarn: "⚠️ Compost scraps & donate leftovers before ending the day!",
         summaryTitle: "Shift Summary",
         summaryBtn: "Go to Evening Prep",
         achTitle: "Progression & Achievement Tracks",
         restTrack: "🏠 Restaurant Track (Tap to Switch Ambiance)",
         recipeTrack: "🍽️ Recipe Track",
+        charsTitle: "📖 Customer & Character Guide",
         pauseTitle: "Game Paused",
         resumeBtn: "Resume",
         audioOn: "Music: ON 🔊",
         audioOff: "Music: OFF 🔇",
-        menuBtn: "Main Menu",
-        fertCount: "Compost",
+        menuBtn: "Main Menu (Save Slots)",
+        fertCount: "Ready Compost",
         fertModeOn: "Fertilizer: ON 🌾",
         fertModeOff: "Fertilizer: OFF",
         scrapsLabel: "Organic Scraps",
@@ -148,14 +210,16 @@ const TRANSLATIONS = {
         harvestToast: "🧺 Harvested!",
         noMoney: "Not enough money!",
         noStock: "Low ingredients! Buy at Market or harvest in Garden.",
+        alreadyCooking: "🔥 This dish is already cooking!",
         noScraps: "Need at least 5 organic scraps!",
-        noCompost: "No compost available! Produce some in the Compost tab first.",
+        noCompost: "No ready compost available!",
         compostSuccess: "♻️ Produced 1 Compost! (+50 Pts)",
         noLeftovers: "No surplus dishes to donate.",
         donateSuccess: "❤️ Donated to shelter!",
         leftoverCreated: "🍽️ Extra dish saved as Surplus Food!",
-        missedOrder: "😠 Customer left! -80 Pts",
-        aromaTriggered: "🍵 Herbal Tea Aroma froze patience for 6s!",
+        missedOrder: "😠 Customer left! Streak reset (-80 Pts)",
+        aromaTriggered: "💧 Patience Aroma active! Timers frozen for 10s!",
+        teaAromaTriggered: "🍵 Herbal Tea Aroma froze patience for 6s!",
         buyBtn: "Buy",
         boughtToast: "🚜 Restocked!",
         barnabySellTitle: "♻️ Sell Compost to Barnaby",
@@ -168,60 +232,98 @@ const TRANSLATIONS = {
         statsServed: "Orders Served",
         statsEarnings: "Shift Earnings",
         statsScraps: "Organic Scraps Created",
-        statsSurplus: "Surplus Dishes (Ready to Donate)",
-        statsNightNote: "Use Evening Prep to compost scraps and donate surplus dishes!",
+        statsAutoSurplus: "End-of-Day Kitchen Surplus",
+        statsTotalSurplus: "Total Surplus Ready to Donate",
+        statsNightNote: "Compost your scraps and donate surplus dishes in Evening Prep!",
         overnightPenalty: "⚠️ Unhandled waste penalty",
         overnightBonus: "🌿 Perfect Zero-Waste Bonus",
         unlockedTag: "Unlocked",
         selectTag: "Select",
         activeTag: "★ Active",
-        lockedTag: "Locked",
+        lockedShort: "Locked",
         ambChanged: "Ambiance switched:",
-        ecoUnlocked: "🌿 50,000 Pts! Black Eco-Friendly Chef Uniforms unlocked!",
+        ecoUnlocked: "🌿 50,000 Pts! Black Eco-Friendly Chef Uniform unlocked!",
         ptsUnit: "Pts",
-        targetTag: "🎯 Priority"
+        targetTag: "🎯 Priority",
+        streakLabel: "Streak",
+        doubleScore: "2x Score",
+        uniformClassic: "Classic White Uniform",
+        uniformEco: "🌿 Black Eco-Friendly Uniform",
+        cdLines: ["Aprons tied, fresh ingredients ready!", "Stoves hot, zero-waste kitchen ON!", "Doors opening, have a great shift!"],
+        cdGo: "GO!",
+        patienceText: "Patience",
+        favsText: "Favorites"
     }
 };
+
+const PHILOSOPHIES = [
+    {
+        id: 'compost',
+        icon: '🌱',
+        nameTR: 'Kompost Ustası',
+        nameEN: 'Compost Master',
+        descTR: '2 hazır kompost ile başla ve her bahçe hasadında +5 bonus sebze kazan.',
+        descEN: 'Start with 2 ready Compost & earn +5 bonus Produce per harvest.'
+    },
+    {
+        id: 'shelter',
+        icon: '❤️',
+        nameTR: 'Barınak Kahramanı',
+        nameEN: 'Shelter Hero',
+        descTR: 'Barınağa yapılan her yemek bağışından +%25 bonus İtibar Puanı kazan.',
+        descEN: 'Earn +25% bonus Reputation Score from every Shelter donation.'
+    },
+    {
+        id: 'bargainer',
+        icon: '🌾',
+        nameTR: 'Yerel Pazarlıkçı',
+        nameEN: 'Local Bargainer',
+        descTR: "Çiftçi Barnaby'nin pazarında tüm alışverişlerde kalıcı %15 indirim al.",
+        descEN: "Get a permanent 15% discount at Old Barnaby's Farm Market."
+    }
+];
 
 const CHEFS = [
     { id: 'classic', nameTR: 'Klasik Şef', nameEN: 'Classic Chef', imgClassic: 'assets/chef_classic.jpg', imgEco: 'assets/chef_classic_eco.jpg' },
     { id: 'female', nameTR: 'Kadın Şef', nameEN: 'Female Chef', imgClassic: 'assets/chef_female_classic.jpg', imgEco: 'assets/chef_female_eco.jpg' },
+    { id: 'gardener', nameTR: 'Bahçıvan', nameEN: 'Eco-Gardener', imgClassic: 'assets/chef_eco.jpg', imgEco: 'assets/chef_gardener_eco.jpg' },
     { id: 'artisan', nameTR: 'Modern Şef', nameEN: 'Modern Artisan', imgClassic: 'assets/chef_artisan.jpg', imgEco: 'assets/chef_tatted_eco.jpg' },
-    { id: 'gardener', nameTR: 'Bahçıvan Şef', nameEN: 'Eco Gardener', imgClassic: 'assets/chef_eco.jpg', imgEco: 'assets/chef_gardener_eco.jpg' },
     { id: 'hijab', nameTR: 'Usta Şef', nameEN: 'Master Chef', imgClassic: 'assets/chef_hijab_classic.jpg', imgEco: 'assets/chef_hijab_eco.jpg' }
 ];
 
+// Sebze giderleri -3 düşürülmüş + her tarife özel 1.0 - 3.0 sn hazırlık süresi (prepTime)
 const RECIPES = [
-    { id: 'salad', nameTR: 'Bahçe Salatası', nameEN: 'Garden Salad', img: 'assets/dish_salad.jpg', cost: { meat: 0, dairy: 0, produce: 7 }, price: 15, pts: 60, unlock: 0 },
-    { id: 'juice', nameTR: 'Havuç Suyu', nameEN: 'Carrot Juice', img: 'assets/dish_juice.jpg', cost: { meat: 0, dairy: 0, produce: 5 }, price: 12, pts: 50, unlock: 0 },
-    { id: 'soup', nameTR: 'Kremalı Çorba', nameEN: 'Creamy Soup', img: 'assets/dish_soup.jpg', cost: { meat: 0, dairy: 4, produce: 5 }, price: 22, pts: 80, unlock: 0 },
-    { id: 'tart', nameTR: 'Sebzeli Tart', nameEN: 'Veggie Tart', img: 'assets/dish_tart.jpg', cost: { meat: 0, dairy: 8, produce: 7 }, price: 30, pts: 110, unlock: 1000 },
-    { id: 'tea', nameTR: 'Bitki Çayı', nameEN: 'Herbal Tea', img: 'assets/dish_tea.jpg', cost: { meat: 0, dairy: 0, produce: 3 }, price: 18, pts: 70, unlock: 2500 },
-    { id: 'stew', nameTR: 'Etli Güveç', nameEN: 'Hearty Stew', img: 'assets/dish_stew.jpg', cost: { meat: 12, dairy: 0, produce: 7 }, price: 45, pts: 160, unlock: 5000 },
-    { id: 'pumpkin', nameTR: 'Balkabağı Turtası', nameEN: 'Spiced Pie', img: 'assets/dish_pumpkin.jpg', cost: { meat: 0, dairy: 8, produce: 9 }, price: 38, pts: 130, unlock: 10000 },
-    { id: 'chicken', nameTR: 'Otlu Tavuk', nameEN: 'Herb Chicken', img: 'assets/dish_chicken.jpg', cost: { meat: 12, dairy: 0, produce: 5 }, price: 42, pts: 150, unlock: 20000 },
-    { id: 'shepherd', nameTR: 'Çoban Turtası', nameEN: "Shepherd's Pie", img: 'assets/dish_shepherd.jpg', cost: { meat: 12, dairy: 8, produce: 7 }, price: 55, pts: 210, unlock: 35000 },
-    { id: 'cheesecake', nameTR: 'Orman Cheesecake', nameEN: 'Berry Cheesecake', img: 'assets/dish_cheesecake.jpg', cost: { meat: 0, dairy: 12, produce: 9 }, price: 50, pts: 190, unlock: 50000 }
+    { id: 'salad', nameTR: 'Bahçe Salatası', nameEN: 'Garden Salad', img: 'assets/dish_salad.jpg', cost: { meat: 0, dairy: 0, produce: 7 }, price: 15, pts: 60, unlock: 0, prepTime: 1.5 },
+    { id: 'juice', nameTR: 'Havuç Suyu', nameEN: 'Carrot Juice', img: 'assets/dish_juice.jpg', cost: { meat: 0, dairy: 0, produce: 5 }, price: 12, pts: 50, unlock: 0, prepTime: 1.0 },
+    { id: 'soup', nameTR: 'Kremalı Çorba', nameEN: 'Carrot Soup', img: 'assets/dish_soup.jpg', cost: { meat: 0, dairy: 4, produce: 5 }, price: 22, pts: 80, unlock: 0, prepTime: 1.8 },
+    { id: 'tart', nameTR: 'Sebzeli Tart', nameEN: 'Veggie Tart', img: 'assets/dish_tart.jpg', cost: { meat: 0, dairy: 8, produce: 7 }, price: 30, pts: 110, unlock: 1000, prepTime: 2.0 },
+    { id: 'tea', nameTR: 'Bitki Çayı', nameEN: 'Herbal Tea', img: 'assets/dish_tea.jpg', cost: { meat: 0, dairy: 0, produce: 3 }, price: 18, pts: 70, unlock: 2500, prepTime: 1.2 },
+    { id: 'stew', nameTR: 'Etli Güveç', nameEN: 'Hearty Stew', img: 'assets/dish_stew.jpg', cost: { meat: 12, dairy: 0, produce: 7 }, price: 45, pts: 160, unlock: 5000, prepTime: 2.6 },
+    { id: 'pumpkin', nameTR: 'Balkabağı Turtası', nameEN: 'Spiced Pie', img: 'assets/dish_pumpkin.jpg', cost: { meat: 0, dairy: 8, produce: 9 }, price: 38, pts: 130, unlock: 10000, prepTime: 2.2 },
+    { id: 'chicken', nameTR: 'Otlu Tavuk', nameEN: 'Herb Chicken', img: 'assets/dish_chicken.jpg', cost: { meat: 12, dairy: 0, produce: 5 }, price: 42, pts: 150, unlock: 20000, prepTime: 2.5 },
+    { id: 'shepherd', nameTR: 'Çoban Turtası', nameEN: "Shepherd's Pie", img: 'assets/dish_shepherd.jpg', cost: { meat: 12, dairy: 8, produce: 7 }, price: 55, pts: 210, unlock: 35000, prepTime: 3.0 },
+    { id: 'cheesecake', nameTR: 'Orman Cheesecake', nameEN: 'Berry Cheesecake', img: 'assets/dish_cheesecake.jpg', cost: { meat: 0, dairy: 12, produce: 9 }, price: 50, pts: 190, unlock: 50000, prepTime: 2.8 }
 ];
 
 const CUSTOMERS = [
-    { id: 'kid', name: 'Leo', roleTR: 'Mahalle Çocuğu', roleEN: 'Local Kid', img: 'assets/cust_kid.jpg', patience: 16, prefs: ['juice', 'salad', 'tart'] },
-    { id: 'critic', name: 'Victor', roleTR: 'Gurme Eleştirmen', roleEN: 'Food Critic', img: 'assets/cust_critic.jpg', patience: 17, prefs: ['soup', 'stew', 'shepherd'] },
-    { id: 'vlogger', name: 'Maya', roleTR: 'Eko-Vlogger', roleEN: 'Eco-Vlogger', img: 'assets/cust_vlogger.jpg', patience: 20, prefs: ['salad', 'juice', 'tea'] },
-    { id: 'banker', name: 'Sterling', roleTR: 'Aceleci Bankacı', roleEN: 'Busy Banker', img: 'assets/cust_banker.jpg', patience: 13, prefs: ['stew', 'chicken', 'shepherd'] },
-    { id: 'artist', name: 'Luna', roleTR: 'Sanatçı', roleEN: 'Local Artist', img: 'assets/cust_artist.jpg', patience: 24, prefs: ['salad', 'soup', 'tea', 'cheesecake'] }
+    { id: 'kid', name: 'Leo', roleTR: 'Mahalle Çocuğu', roleEN: 'Local Kid', img: 'assets/cust_kid.jpg', patience: 18, prefs: ['juice', 'salad', 'tart'] },
+    { id: 'critic', name: 'Victor', roleTR: 'Gurme Eleştirmen', roleEN: 'Food Critic', img: 'assets/cust_critic.jpg', patience: 18, prefs: ['soup', 'stew', 'shepherd'] },
+    { id: 'vlogger', name: 'Maya', roleTR: 'Eco-Vlogger', roleEN: 'Eco-Vlogger', img: 'assets/cust_vlogger.jpg', patience: 21, prefs: ['salad', 'juice', 'tea'] },
+    { id: 'banker', name: 'Sterling', roleTR: 'Aceleci Bankacı', roleEN: 'Busy Banker', img: 'assets/cust_banker.jpg', patience: 15, prefs: ['stew', 'chicken', 'shepherd'] },
+    { id: 'artist', name: 'Luna', roleTR: 'Sanatçı', roleEN: 'Artist', img: 'assets/cust_artist.jpg', patience: 24, prefs: ['salad', 'soup', 'tea', 'cheesecake'] }
 ];
 
+// Elma tamamen çıkarıldı: Havuç, Domates ve Yeşil Sebze
 const SEEDS = {
-    carrot: { nameTR: 'Havuç', nameEN: 'Carrot', emoji: '🥕', cost: 10, yield: 16 },
-    tomato: { nameTR: 'Domates', nameEN: 'Tomato', emoji: '🍅', cost: 12, yield: 20 },
-    greens: { nameTR: 'Yeşil Sebze', nameEN: 'Fresh Greens', emoji: '🥬', cost: 14, yield: 24 }
+    carrot: { nameTR: 'Havuç', nameEN: 'Carrot', emoji: '🥕', cost: 10, yield: 18 },
+    tomato: { nameTR: 'Domates', nameEN: 'Tomato', emoji: '🍅', cost: 12, yield: 22 },
+    greens: { nameTR: 'Yeşil Sebze', nameEN: 'Fresh Greens', emoji: '🥬', cost: 14, yield: 26 }
 };
 
 const MARKET_ITEMS = [
-    { type: 'meat', nameTR: 'Yerel Et', nameEN: 'Local Meat', emoji: '🥩', cost: 32, yield: 25 },
-    { type: 'dairy', nameTR: 'Süt & Peynir', nameEN: 'Farm Dairy', emoji: '🥛', cost: 24, yield: 25 },
-    { type: 'produce', nameTR: 'Taze Sebze', nameEN: 'Fresh Produce', emoji: '🥦', cost: 18, yield: 25 }
+    { type: 'meat', nameTR: 'Yerel Et', nameEN: 'Local Meat', emoji: '🥩', cost: 32, yield: 30 },
+    { type: 'dairy', nameTR: 'Süt & Peynir', nameEN: 'Farm Dairy', emoji: '🥛', cost: 24, yield: 30 },
+    { type: 'produce', nameTR: 'Taze Sebze', nameEN: 'Fresh Produce', emoji: '🥦', cost: 18, yield: 30 }
 ];
 
 const RESTAURANT_TRACK = [
@@ -233,41 +335,38 @@ const RESTAURANT_TRACK = [
     { id: 'vip', score: 75000, titleTR: '%25 Pazar İndirimi', titleEN: '25% Farm VIP', bg: 'assets/bg_market.jpg', type: 'perk' }
 ];
 
-const COMPOST_SELL_PRICE = 20;
-const COMPOST_SELL_POINTS = 75;
-
-// OYUN DURUMU
+// GLOBAL KAYIT & SLOT DURUMU
 let activeLang = 'tr';
-let activeChefIdx = 0;
-let score = 0;
-let money = 100;
-let day = 1;
-let phase = 'evening';
-let timer = 30;
-let reserves = { meat: 50, dairy: 50, produce: 65 };
-let scraps = 0;
-let leftovers = 0;
-let fertilizer = 0;
-let currentAmbiance = 'assets/bg_restaurant.jpg';
-let gardenPlots = Array.from({ length: 9 }, () => ({ status: 'empty', seed: null, fertilized: false }));
-let selectedSeed = 'carrot';
-let fertilizerMode = false;
-let ecoNotified = false;
-let hasSave = false;
+let saveSlots = [null, null, null, null, null];
+let selectedSlotIdx = 0;
 
-// Mesai geçici değişkenleri
+// GİRİŞ EKRANI KURULUM SEÇİMLERİ
+let draftChefIdx = 0;
+let draftPhilosophy = 'compost';
+
+// AKTİF OYUN DURUMU
+let state = null;
+
+// MESAİ GEÇİCİ DEĞİŞKENLERİ
+let timer = 45;
 let activeCustomers = [null, null, null];
 let selectedPriority = null;
+let cookingJobs = {}; // { [recipeId]: { recipe, total, left, targetSlot } }
 let isPaused = false;
 let isMuted = false;
 let gameInterval = null;
+let countdownInterval = null;
 let spawnTimer = 0;
 let activeAromaTimer = 0;
-let shiftStats = { served: 0, earned: 0, scrapsMade: 0, leftoversMade: 0 };
+let streak = 0;
+let selectedSeed = 'carrot';
+let fertilizerMode = false;
+let shiftStats = { served: 0, earned: 0, scrapsMade: 0, autoSurplus: 0 };
 
 let audioCtx = null;
 
-function playPopSound(pitch = 520) {
+// --- SES EFEKTLERİ ---
+function playTone(freqStart, freqEnd, duration = 0.065, vol = 0.13) {
     if (isMuted) return;
     try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -275,91 +374,74 @@ function playPopSound(pitch = 520) {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(pitch, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(190, audioCtx.currentTime + 0.065);
-        gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.065);
+        osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(freqEnd, audioCtx.currentTime + duration);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.07);
+        osc.stop(audioCtx.currentTime + duration + 0.01);
     } catch (e) {}
 }
 
-function t(key) {
-    return TRANSLATIONS[activeLang][key] || key;
+function playPopSound(pitch = 540) { playTone(pitch, 190, 0.06, 0.13); }
+function playReadyDing() { playTone(760, 1080, 0.11, 0.14); }
+
+function t(key) { return TRANSLATIONS[activeLang][key] || key; }
+function getChefName(chef) { return activeLang === 'tr' ? chef.nameTR : chef.nameEN; }
+function getRecipeName(r) { return activeLang === 'tr' ? r.nameTR : r.nameEN; }
+function getChefImageByScore(chefIdx, pts) {
+    const chef = CHEFS[chefIdx] || CHEFS[0];
+    return pts >= 50000 ? chef.imgEco : chef.imgClassic;
 }
 
-function getChefName(chef) {
-    return activeLang === 'tr' ? chef.nameTR : chef.nameEN;
-}
-
-function getChefImage(chef) {
-    return score >= 50000 ? chef.imgEco : chef.imgClassic;
-}
-
-function getRecipeName(r) {
-    return activeLang === 'tr' ? r.nameTR : r.nameEN;
-}
-
-// --- KAYIT SİSTEMİ ---
-function saveGame() {
-    const data = {
-        activeLang, activeChefIdx, score, money, day, reserves,
-        scraps, leftovers, fertilizer, currentAmbiance, gardenPlots, ecoNotified
-    };
+// --- 5 SLOT KAYIT SİSTEMİ ---
+function loadSlotsFromStorage() {
     try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-        hasSave = true;
-    } catch (e) {}
-}
-
-function loadGame() {
-    try {
-        const raw = localStorage.getItem(SAVE_KEY);
-        if (!raw) return;
-        const d = JSON.parse(raw);
-        if (d.activeLang) activeLang = d.activeLang;
-        if (typeof d.activeChefIdx === 'number' && d.activeChefIdx < CHEFS.length) activeChefIdx = d.activeChefIdx;
-        if (typeof d.score === 'number') score = d.score;
-        if (typeof d.money === 'number') money = d.money;
-        if (typeof d.day === 'number') day = d.day;
-        if (d.reserves) reserves = d.reserves;
-        if (typeof d.scraps === 'number') scraps = d.scraps;
-        if (typeof d.leftovers === 'number') leftovers = d.leftovers;
-        if (typeof d.fertilizer === 'number') fertilizer = d.fertilizer;
-        if (d.currentAmbiance) currentAmbiance = d.currentAmbiance;
-        if (Array.isArray(d.gardenPlots) && d.gardenPlots.length === 9) {
-            gardenPlots = d.gardenPlots.map(p => ({
-                status: p.status === 'growing' ? 'ready' : (p.status || 'empty'),
-                seed: SEEDS[p.seed] ? p.seed : null,
-                fertilized: !!p.fertilized
-            }));
+        const raw = localStorage.getItem(SLOTS_KEY);
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed.activeLang) activeLang = parsed.activeLang;
+            if (Array.isArray(parsed.slots) && parsed.slots.length === MAX_SLOTS) {
+                saveSlots = parsed.slots;
+            }
         }
-        ecoNotified = !!d.ecoNotified;
-        hasSave = true;
     } catch (e) {}
 }
 
-function resetSaveData() {
-    if (!confirm(t('resetConfirm'))) return;
-    localStorage.removeItem(SAVE_KEY);
-    hasSave = false;
-    score = 0;
-    money = 100;
-    day = 1;
-    reserves = { meat: 50, dairy: 50, produce: 65 };
-    scraps = 0;
-    leftovers = 0;
-    fertilizer = 0;
-    currentAmbiance = 'assets/bg_restaurant.jpg';
-    gardenPlots = Array.from({ length: 9 }, () => ({ status: 'empty', seed: null, fertilized: false }));
-    ecoNotified = false;
-    setLanguage(activeLang);
-    showToast(t('resetDone'), 'good');
+function persistSlots() {
+    try {
+        localStorage.setItem(SLOTS_KEY, JSON.stringify({ activeLang, slots: saveSlots }));
+    } catch (e) {}
 }
 
-// --- DİL & ARAYÜZ ---
+function saveCurrentSlot() {
+    if (!state) return;
+    saveSlots[selectedSlotIdx] = JSON.parse(JSON.stringify(state));
+    persistSlots();
+}
+
+function createFreshState(nickname, chefIdx, philosophy) {
+    return {
+        nickname: nickname.trim() || t('defaultName'),
+        chefIdx,
+        philosophy,
+        score: 0,
+        money: 100,
+        day: 1,
+        phase: 'shift', // İlk gün veya kayıt açılışında mesaiye hazır
+        reserves: { meat: 70, dairy: 70, produce: 85 },
+        scraps: 0,
+        leftovers: 0,
+        fertilizer: philosophy === 'compost' ? 2 : 0,
+        currentAmbiance: 'assets/bg_restaurant.jpg',
+        gardenPlots: Array.from({ length: 9 }, () => ({ status: 'empty', seed: null, fertilized: false })),
+        ecoNotified: false
+    };
+}
+
+// --- GİRİŞ EKRANI & DİL ---
 function setLanguage(code) {
     activeLang = code;
     document.getElementById('langTrBtn').classList.toggle('active', code === 'tr');
@@ -368,11 +450,17 @@ function setLanguage(code) {
     const map = {
         uiTitle: 'title',
         uiSub: 'sub',
+        uiSlotsTitle: 'slotsTitle',
+        uiSlotsHint: 'slotsHint',
+        uiStep1Title: 'step1Title',
+        uiNicknameLabel: 'nicknameLabel',
         uiSelectChef: 'selectChef',
-        uiResetBtn: 'resetBtn',
+        uiStep2Title: 'step2Title',
+        uiPhilosophySub: 'philosophySub',
         uiBtnAch: 'btnAch',
+        uiBtnChars: 'btnChars',
+        pauseStageBtn: 'pauseBtn',
         uiPriorityLabel: 'priorityLabel',
-        patienceAromaLabel: 'aromaBadge',
         uiKitchenTitle: 'kitchenTitle',
         uiTabGarden: 'tabGarden',
         uiTabMarket: 'tabMarket',
@@ -388,12 +476,21 @@ function setLanguage(code) {
         uiDumpCompostBtn: 'dumpCompostBtn',
         uiShelterTitle: 'shelterTitle',
         uiShelterText: 'shelterText',
-        uiDonateBtn: 'donateBtn',
+        uiReservesTitle: 'reservesTitle',
+        uiMeatLabel: 'meatLabel',
+        uiDairyLabel: 'dairyLabel',
+        uiProduceLabel: 'produceLabel',
+        uiWasteTitle: 'wasteTitle',
+        uiSideScrapsLabel: 'sideScrapsLabel',
+        uiSideLeftoversLabel: 'sideLeftoversLabel',
+        uiSideFertLabel: 'sideFertLabel',
+        uiSideWarn: 'sideWarn',
         uiSummaryTitle: 'summaryTitle',
         uiSummaryBtn: 'summaryBtn',
         uiAchTitle: 'achTitle',
         uiRestTrack: 'restTrack',
         uiRecipeTrack: 'recipeTrack',
+        uiCharsTitle: 'charsTitle',
         uiPauseTitle: 'pauseTitle',
         uiResumeBtn: 'resumeBtn',
         uiMenuBtn: 'menuBtn'
@@ -404,11 +501,10 @@ function setLanguage(code) {
         if (el) el.textContent = t(key);
     });
 
-    document.getElementById('uiStartBtn').textContent = hasSave && day > 1 ? t('continueBtn') : t('startBtn');
+    renderStartScreen();
     updateAudioButtons();
-    renderChefSelect();
 
-    if (document.getElementById('gameScreen').classList.contains('active')) {
+    if (state && document.getElementById('gameScreen').classList.contains('active')) {
         updateHUD();
         renderShiftKitchen();
         renderCustomers(true);
@@ -416,7 +512,7 @@ function setLanguage(code) {
         renderMarket();
         renderCompostOptions();
     }
-    saveGame();
+    persistSlots();
 }
 
 function showToast(msg, type = '') {
@@ -425,122 +521,308 @@ function showToast(msg, type = '') {
     div.className = `toast ${type}`;
     div.textContent = msg;
     cont.appendChild(div);
-    setTimeout(() => div.remove(), 2400);
+    setTimeout(() => div.remove(), 2500);
 }
 
-function renderChefSelect() {
-    const grid = document.getElementById('chefSelectGrid');
-    grid.innerHTML = '';
-    CHEFS.forEach((chef, idx) => {
+function renderStartScreen() {
+    // 5 Save Slotu Çiz
+    const bar = document.getElementById('saveSlotsBar');
+    bar.innerHTML = '';
+
+    for (let i = 0; i < MAX_SLOTS; i++) {
+        const slot = saveSlots[i];
         const card = document.createElement('div');
-        card.className = `chef-card ${idx === activeChefIdx ? 'selected' : ''}`;
-        card.onclick = () => {
+        const isSel = i === selectedSlotIdx;
+
+        if (!slot) {
+            card.className = `slot-card empty-slot ${isSel ? 'selected' : ''}`;
+            card.onclick = () => selectSlot(i);
+            card.innerHTML = `
+                <strong style="font-size:0.74rem;">${t('slotPrefix')} ${i + 1}</strong>
+                <span style="font-size:0.66rem;">${t('emptySlotLabel')}</span>
+            `;
+        } else {
+            const phil = PHILOSOPHIES.find(p => p.id === slot.philosophy) || PHILOSOPHIES[0];
+            card.className = `slot-card ${isSel ? 'selected' : ''}`;
+            card.onclick = () => selectSlot(i);
+            card.innerHTML = `
+                <img src="${getChefImageByScore(slot.chefIdx, slot.score)}" class="slot-avatar" alt="Chef">
+                <div class="slot-info">
+                    <span class="slot-name">${escapeHtml(slot.nickname)}</span>
+                    <span class="slot-meta">${phil.icon} ${t('dayPrefix')} ${slot.day} • ⭐${slot.score.toLocaleString()}</span>
+                </div>
+                <button class="slot-del-btn" title="Sil" onclick="deleteSlot(event, ${i})">🗑️</button>
+            `;
+        }
+        bar.appendChild(card);
+    }
+
+    const activeSlot = saveSlots[selectedSlotIdx];
+    const setupPanel = document.getElementById('setupPanel');
+    const nickInput = document.getElementById('nicknameInput');
+    const ctaBtn = document.getElementById('startActionBtn');
+
+    if (activeSlot) {
+        setupPanel.classList.add('locked-preview');
+        nickInput.value = activeSlot.nickname;
+        nickInput.disabled = true;
+        draftChefIdx = activeSlot.chefIdx;
+        draftPhilosophy = activeSlot.philosophy;
+        ctaBtn.textContent = `${t('continueSlotBtn')} (${activeSlot.nickname})`;
+    } else {
+        setupPanel.classList.remove('locked-preview');
+        nickInput.disabled = false;
+        if (!nickInput.value.trim()) nickInput.value = t('defaultName');
+        ctaBtn.textContent = `${t('startNewBtn')} (${t('slotPrefix')} ${selectedSlotIdx + 1})`;
+    }
+
+    // 5 Şef Kartı
+    const chefGrid = document.getElementById('chefSelectGrid');
+    chefGrid.innerHTML = '';
+    CHEFS.forEach((c, idx) => {
+        const scorePreview = activeSlot ? activeSlot.score : 0;
+        const div = document.createElement('div');
+        div.className = `chef-pick-card ${idx === draftChefIdx ? 'selected' : ''}`;
+        div.onclick = () => {
+            if (activeSlot) return;
             playPopSound(600);
-            activeChefIdx = idx;
-            renderChefSelect();
-            saveGame();
+            draftChefIdx = idx;
+            renderStartScreen();
         };
-        card.innerHTML = `
-            <img src="${getChefImage(chef)}" alt="${getChefName(chef)}">
-            <span>${getChefName(chef)}</span>
+        div.innerHTML = `
+            <img src="${getChefImageByScore(idx, scorePreview)}" alt="${getChefName(c)}">
+            <span>${getChefName(c)}</span>
         `;
-        grid.appendChild(card);
+        chefGrid.appendChild(div);
+    });
+
+    // 3 Başlangıç Felsefesi / Güçlendirme
+    const philList = document.getElementById('philosophyList');
+    philList.innerHTML = '';
+    PHILOSOPHIES.forEach(p => {
+        const div = document.createElement('div');
+        div.className = `phil-card ${p.id === draftPhilosophy ? 'selected' : ''}`;
+        div.onclick = () => {
+            if (activeSlot) return;
+            playPopSound(580);
+            draftPhilosophy = p.id;
+            renderStartScreen();
+        };
+        div.innerHTML = `
+            <div class="phil-title">${p.icon} ${activeLang === 'tr' ? p.nameTR : p.nameEN}</div>
+            <div class="phil-desc">${activeLang === 'tr' ? p.descTR : p.descEN}</div>
+        `;
+        philList.appendChild(div);
     });
 }
 
-function startGame() {
-    playPopSound(650);
+function selectSlot(idx) {
+    playPopSound(560);
+    selectedSlotIdx = idx;
+    if (!saveSlots[idx]) {
+        document.getElementById('nicknameInput').value = t('defaultName');
+    }
+    renderStartScreen();
+}
+
+function deleteSlot(ev, idx) {
+    ev.stopPropagation();
+    if (!confirm(t('deleteConfirm'))) return;
+    saveSlots[idx] = null;
+    persistSlots();
+    playPopSound(320);
+    showToast(t('deletedToast'));
+    renderStartScreen();
+}
+
+function launchSelectedSlot() {
+    playPopSound(660);
+    let slotData = saveSlots[selectedSlotIdx];
+    if (!slotData) {
+        const nick = document.getElementById('nicknameInput').value.trim() || t('defaultName');
+        slotData = createFreshState(nick, draftChefIdx, draftPhilosophy);
+        saveSlots[selectedSlotIdx] = slotData;
+        persistSlots();
+    }
+
+    state = JSON.parse(JSON.stringify(slotData));
     document.getElementById('startScreen').classList.remove('active');
     document.getElementById('gameScreen').classList.add('active');
-    document.getElementById('ambianceImg').src = currentAmbiance;
+    document.getElementById('ambianceImg').src = state.currentAmbiance;
+    updateHUD();
 
-    if (day === 1 && score === 0) {
-        startShift();
-    } else {
+    if (state.phase === 'evening') {
         openEveningPanel();
+    } else {
+        // Kayıtlı oyundan mesaiye geçerken tam boy şef 3-2-1 geri sayımı
+        startShiftWithCountdown(false);
     }
 }
 
-// --- MESAİ SİSTEMİ ---
-function getShiftDuration() {
-    if (day <= 3) return 30;
-    if (day <= 6) return 45;
-    return 60;
+// --- TAM BOY ŞEF 3-2-1 GERİ SAYIMI ---
+function requestStartShift() {
+    // Akşam panelinden mesaiye geçerken önceki günün atık/yemek kontrolü yapılır
+    startShiftWithCountdown(true);
 }
 
-function startShift() {
-    playPopSound(580);
+function startShiftWithCountdown(fromEvening) {
+    playPopSound(600);
+    clearInterval(gameInterval);
+    clearInterval(countdownInterval);
 
-    if (day > 1 && phase === 'evening') {
-        const leftWaste = scraps + leftovers;
-        if (leftWaste > 0) {
-            const pen = leftWaste * 20;
-            score = Math.max(0, score - pen);
+    if (fromEvening && state.day > 1) {
+        const unhandled = state.scraps + state.leftovers;
+        if (unhandled > 0) {
+            const pen = unhandled * 20;
+            state.score = Math.max(0, state.score - pen);
             showToast(`${t('overnightPenalty')}: -${pen} ${t('ptsUnit')}`, 'bad');
         } else {
-            score += 150;
+            state.score += 150;
             showToast(`${t('overnightBonus')}: +150 ${t('ptsUnit')}`, 'good');
         }
     }
 
-    phase = 'restaurant';
-    isPaused = false;
-    timer = getShiftDuration();
-    activeCustomers = [null, null, null];
-    selectedPriority = null;
-    spawnTimer = 0;
-    activeAromaTimer = 0;
-    shiftStats = { served: 0, earned: 0, scrapsMade: 0, leftoversMade: 0 };
-
+    // Sahneyi arka planda hazırla
+    state.phase = 'shift';
     document.getElementById('restaurantView').classList.add('active');
     document.getElementById('managementView').classList.remove('active');
-    document.getElementById('ambianceImg').src = currentAmbiance;
+    document.getElementById('ambianceImg').src = state.currentAmbiance;
+    activeCustomers = [null, null, null];
+    cookingJobs = {};
+    selectedPriority = null;
+    streak = 0;
+    activeAromaTimer = 0;
+    timer = getShiftDuration();
+    updateHUD();
+    renderShiftKitchen();
+    renderCustomers(true);
+
+    // Geri sayım kartını şefin tam hali ve mevcut kostümüyle doldur
+    const isEco = state.score >= 50000;
+    document.getElementById('countdownChefImg').src = getChefImageByScore(state.chefIdx, state.score);
+    document.getElementById('countdownChefName').textContent = state.nickname;
+    const uTag = document.getElementById('countdownUniformTag');
+    uTag.textContent = isEco ? t('uniformEco') : t('uniformClassic');
+    uTag.classList.toggle('eco', isEco);
+
+    const numEl = document.getElementById('countdownNumber');
+    const speechEl = document.getElementById('countdownSpeech');
+    const lines = t('cdLines');
+    const modal = document.getElementById('countdownModal');
+    modal.classList.add('active');
+
+    let count = 3;
+    const showStep = () => {
+        if (count > 0) {
+            numEl.textContent = count;
+            speechEl.textContent = lines[3 - count] || lines[0];
+            playTone(460 + (3 - count) * 90, 320, 0.08, 0.14);
+        } else {
+            numEl.textContent = t('cdGo');
+            playReadyDing();
+        }
+        numEl.style.animation = 'none';
+        void numEl.offsetWidth;
+        numEl.style.animation = 'popNum 0.35s ease';
+    };
+
+    showStep();
+    countdownInterval = setInterval(() => {
+        count -= 1;
+        if (count > 0) {
+            showStep();
+        } else if (count === 0) {
+            showStep();
+        } else {
+            clearInterval(countdownInterval);
+            modal.classList.remove('active');
+            beginActiveShift();
+        }
+    }, 850);
+}
+
+// --- MESAİ SİSTEMİ (1-3. gün 45 sn, 4+ gün 60 sn) ---
+function getShiftDuration() {
+    return state.day <= 3 ? 45 : 60;
+}
+
+function beginActiveShift() {
+    isPaused = false;
+    timer = getShiftDuration();
+    spawnTimer = 0;
+    shiftStats = { served: 0, earned: 0, scrapsMade: 0, autoSurplus: 0 };
 
     const music = document.getElementById('bgMusic');
     music.currentTime = 0;
-    music.volume = 0.45;
+    music.volume = 0.42;
     if (!isMuted) music.play().catch(() => {});
 
     spawnCustomer();
     setTimeout(() => {
-        if (phase === 'restaurant' && !isPaused) spawnCustomer();
-    }, 1100);
+        if (state && state.phase === 'shift' && !isPaused) spawnCustomer();
+    }, 1000);
 
     clearInterval(gameInterval);
-    gameInterval = setInterval(gameTick, 250);
+    gameInterval = setInterval(gameTick, 100); // 100ms pürüzsüz pişirme ve sabır akışı
 
     updateHUD();
     renderShiftKitchen();
     renderCustomers(true);
+    saveCurrentSlot();
 }
 
 function gameTick() {
-    if (isPaused || phase !== 'restaurant') return;
+    if (!state || isPaused || state.phase !== 'shift') return;
 
-    timer -= 0.25;
+    const dt = 0.1;
+    timer -= dt;
+
     if (activeAromaTimer > 0) {
-        activeAromaTimer = Math.max(0, activeAromaTimer - 0.25);
-        document.getElementById('patienceAromaLabel').classList.toggle('hidden', activeAromaTimer <= 0);
+        activeAromaTimer = Math.max(0, activeAromaTimer - dt);
     }
 
-    spawnTimer += 0.25;
-    if (spawnTimer >= 3.75) {
+    // 1. Pişen yemekleri ilerlet (1-3 saniye hazırlık)
+    const jobIds = Object.keys(cookingJobs);
+    if (jobIds.length > 0) {
+        let finishedAny = false;
+        jobIds.forEach(id => {
+            const job = cookingJobs[id];
+            job.left -= dt;
+            if (job.left <= 0) {
+                delete cookingJobs[id];
+                completeCookedDish(job.recipe, job.targetSlot);
+                finishedAny = true;
+            } else {
+                updateCookingButtonVisual(id, job);
+            }
+        });
+        if (finishedAny) {
+            renderShiftKitchen();
+            renderCustomers(true);
+        }
+    }
+
+    // 2. Yeni müşteri gelişi
+    spawnTimer += dt;
+    if (spawnTimer >= 3.8) {
         spawnTimer = 0;
         spawnCustomer();
     }
 
-    let changed = false;
+    // 3. Müşteri sabır akışı
+    let customersChanged = false;
     for (let i = 0; i < 3; i++) {
         const c = activeCustomers[i];
         if (!c) continue;
-        if (activeAromaTimer <= 0) c.patienceLeft -= 0.25;
+        if (activeAromaTimer <= 0) c.patienceLeft -= dt;
 
         if (c.patienceLeft <= 0) {
             activeCustomers[i] = null;
             if (selectedPriority === i) selectedPriority = null;
-            score = Math.max(0, score - 80);
+            streak = 0;
+            state.score = Math.max(0, state.score - 80);
             showToast(t('missedOrder'), 'bad');
-            changed = true;
+            customersChanged = true;
         }
     }
 
@@ -551,7 +833,23 @@ function gameTick() {
     }
 
     updateHUD();
-    renderCustomers(changed);
+    renderCustomers(customersChanged);
+    if (customersChanged) renderShiftKitchen();
+}
+
+function activatePatienceAroma() {
+    if (!state || state.phase !== 'shift' || isPaused) return;
+    if (activeAromaTimer > 0) return;
+    if (state.money < AROMA_COST) {
+        playPopSound(220);
+        showToast(t('noMoney'), 'bad');
+        return;
+    }
+    state.money -= AROMA_COST;
+    activeAromaTimer = 10;
+    playReadyDing();
+    showToast(t('aromaTriggered'), 'good');
+    updateHUD();
 }
 
 function spawnCustomer() {
@@ -563,7 +861,7 @@ function spawnCustomer() {
 
     const slot = emptySlots[Math.floor(Math.random() * emptySlots.length)];
     const tpl = CUSTOMERS[Math.floor(Math.random() * CUSTOMERS.length)];
-    const unlocked = RECIPES.filter(r => score >= r.unlock);
+    const unlocked = RECIPES.filter(r => state.score >= r.unlock);
     let pool = unlocked.filter(r => tpl.prefs.includes(r.id));
     if (pool.length === 0) pool = unlocked;
     const dish = pool[Math.floor(Math.random() * pool.length)];
@@ -575,6 +873,7 @@ function spawnCustomer() {
         patienceLeft: tpl.patience
     };
     renderCustomers(true);
+    renderShiftKitchen();
 }
 
 function renderCustomers(rebuild = false) {
@@ -589,7 +888,7 @@ function renderCustomers(rebuild = false) {
                 bar.style.width = `${pct}%`;
                 bar.style.backgroundColor = activeAromaTimer > 0
                     ? '#38bdf8'
-                    : (pct > 50 ? '#2e7d32' : pct > 25 ? '#d97706' : '#dc2626');
+                    : (pct > 50 ? '#2e8b3c' : pct > 25 ? '#d98218' : '#c93232');
             }
         }
         return;
@@ -606,6 +905,9 @@ function renderCustomers(rebuild = false) {
         }
 
         const pct = Math.max(0, (c.patienceLeft / c.maxPatience) * 100);
+        const role = activeLang === 'tr' ? c.template.roleTR : c.template.roleEN;
+        const barColor = activeAromaTimer > 0 ? '#38bdf8' : (pct > 50 ? '#2e8b3c' : pct > 25 ? '#d98218' : '#c93232');
+
         const card = document.createElement('div');
         card.className = `order-card ${selectedPriority === i ? 'priority' : ''}`;
         card.onclick = () => {
@@ -614,17 +916,14 @@ function renderCustomers(rebuild = false) {
             renderCustomers(true);
         };
 
-        const roleText = activeLang === 'tr' ? c.template.roleTR : c.template.roleEN;
-        const barColor = activeAromaTimer > 0 ? '#38bdf8' : (pct > 50 ? '#2e7d32' : pct > 25 ? '#d97706' : '#dc2626');
-
         card.innerHTML = `
             ${selectedPriority === i ? `<span class="priority-badge">${t('targetTag')}</span>` : ''}
-            <div class="order-top-pair">
-                <img src="${c.template.img}" alt="${c.template.name}" class="cust-thumb">
+            <div class="order-dish-strip">
                 <img src="${c.recipe.img}" alt="${getRecipeName(c.recipe)}" class="dish-thumb">
+                <span class="order-dish-name">${getRecipeName(c.recipe)}</span>
             </div>
-            <div class="order-name">${getRecipeName(c.recipe)}</div>
-            <div class="order-role">${c.template.name} • ${roleText}</div>
+            <img src="${c.template.img}" alt="${c.template.name}" class="cust-thumb">
+            <div class="order-cust-name">${c.template.name} (${role})</div>
             <div class="order-patience-bar">
                 <div class="order-patience-fill" id="c_bar_${i}" style="width:${pct}%; background-color:${barColor};"></div>
             </div>
@@ -633,59 +932,115 @@ function renderCustomers(rebuild = false) {
     }
 }
 
+// --- 10 YEMEKLİK KLASİK TEZGAH + PİŞİRME SÜRESİ ---
 function renderShiftKitchen() {
     const grid = document.getElementById('recipeGrid');
     grid.innerHTML = '';
 
-    const unlocked = RECIPES.filter(r => score >= r.unlock);
-    unlocked.forEach(r => {
-        const canCook = reserves.produce >= r.cost.produce
-            && reserves.dairy >= r.cost.dairy
-            && reserves.meat >= r.cost.meat;
+    const activeDishIds = new Set(activeCustomers.filter(Boolean).map(c => c.recipe.id));
 
+    RECIPES.forEach(r => {
+        const unlocked = state.score >= r.unlock;
+        const job = cookingJobs[r.id];
         const btn = document.createElement('button');
-        btn.className = `recipe-btn ${canCook ? '' : 'no-stock'}`;
-        btn.onclick = () => cookDish(r);
+
+        if (!unlocked) {
+            btn.className = 'recipe-btn locked-dish';
+            btn.disabled = true;
+            btn.innerHTML = `
+                <img src="${r.img}" alt="${getRecipeName(r)}">
+                <span class="recipe-name">🔒 ${r.unlock.toLocaleString()}</span>
+                <span class="recipe-cost">${t('lockedShort')}</span>
+            `;
+            grid.appendChild(btn);
+            return;
+        }
+
+        const canCook = state.reserves.produce >= r.cost.produce
+            && state.reserves.dairy >= r.cost.dairy
+            && state.reserves.meat >= r.cost.meat;
+        const isNeeded = activeDishIds.has(r.id);
+
+        btn.id = `rec_btn_${r.id}`;
+        btn.className = `recipe-btn ${job ? 'cooking' : (isNeeded ? 'needed' : '')} ${!job && !canCook ? 'no-stock' : ''}`;
+        btn.onclick = () => startCookingDish(r);
 
         const costs = [];
         if (r.cost.produce > 0) costs.push(`🥦${r.cost.produce}`);
         if (r.cost.dairy > 0) costs.push(`🥛${r.cost.dairy}`);
         if (r.cost.meat > 0) costs.push(`🥩${r.cost.meat}`);
 
+        const pct = job ? Math.min(100, ((job.total - job.left) / job.total) * 100) : 0;
+
         btn.innerHTML = `
+            ${job ? `<div class="cook-progress-bg" id="cook_bg_${r.id}" style="width:${pct}%"></div>` : ''}
+            <span class="prep-tag">⏱${r.prepTime.toFixed(1)}s</span>
             <img src="${r.img}" alt="${getRecipeName(r)}">
-            <div class="recipe-info">
-                <span class="recipe-name">${getRecipeName(r)}</span>
-                <span class="recipe-cost">${costs.join(' ')} • $${r.price}</span>
-            </div>
+            <span class="recipe-name">${getRecipeName(r)}</span>
+            <span class="recipe-cost">${costs.join(' ')}</span>
+            ${job ? `<div class="cook-timer-pill" id="cook_tm_${r.id}">🔥 ${job.left.toFixed(1)}s</div>` : ''}
         `;
         grid.appendChild(btn);
     });
 }
 
-function cookDish(recipe) {
-    if (reserves.produce < recipe.cost.produce || reserves.dairy < recipe.cost.dairy || reserves.meat < recipe.cost.meat) {
+function updateCookingButtonVisual(recipeId, job) {
+    const bg = document.getElementById(`cook_bg_${recipeId}`);
+    const tm = document.getElementById(`cook_tm_${recipeId}`);
+    const pct = Math.min(100, ((job.total - job.left) / job.total) * 100);
+    if (bg) bg.style.width = `${pct}%`;
+    if (tm) tm.textContent = `🔥 ${Math.max(0.1, job.left).toFixed(1)}s`;
+}
+
+function startCookingDish(recipe) {
+    if (isPaused || state.phase !== 'shift') return;
+    if (cookingJobs[recipe.id]) {
+        playPopSound(260);
+        showToast(t('alreadyCooking'));
+        return;
+    }
+
+    if (state.reserves.produce < recipe.cost.produce
+        || state.reserves.dairy < recipe.cost.dairy
+        || state.reserves.meat < recipe.cost.meat) {
         playPopSound(220);
         showToast(t('noStock'), 'bad');
         return;
     }
 
     playPopSound(540);
-    reserves.produce -= recipe.cost.produce;
-    reserves.dairy -= recipe.cost.dairy;
-    reserves.meat -= recipe.cost.meat;
-    scraps += 1;
+    state.reserves.produce -= recipe.cost.produce;
+    state.reserves.dairy -= recipe.cost.dairy;
+    state.reserves.meat -= recipe.cost.meat;
+    state.scraps += 1;
     shiftStats.scrapsMade += 1;
 
+    cookingJobs[recipe.id] = {
+        recipe,
+        total: recipe.prepTime,
+        left: recipe.prepTime,
+        targetSlot: selectedPriority
+    };
+
+    updateHUD();
+    renderShiftKitchen();
+}
+
+function completeCookedDish(recipe, rememberedSlot) {
+    playReadyDing();
+
+    // 1. Öncelikli müşteri (mevcut veya tıklama anındaki) bu yemeği istiyorsa ona ver
     let targetIdx = -1;
-    if (selectedPriority !== null && activeCustomers[selectedPriority] && activeCustomers[selectedPriority].recipe.id === recipe.id) {
-        targetIdx = selectedPriority;
+    const prefSlot = selectedPriority !== null ? selectedPriority : rememberedSlot;
+    if (prefSlot !== null && activeCustomers[prefSlot] && activeCustomers[prefSlot].recipe.id === recipe.id) {
+        targetIdx = prefSlot;
     } else {
-        let lowestPatience = Infinity;
+        // 2. Değilse sabrı en az olan müşteriye ver
+        let lowest = Infinity;
         for (let i = 0; i < 3; i++) {
             const c = activeCustomers[i];
-            if (c && c.recipe.id === recipe.id && c.patienceLeft < lowestPatience) {
-                lowestPatience = c.patienceLeft;
+            if (c && c.recipe.id === recipe.id && c.patienceLeft < lowest) {
+                lowest = c.patienceLeft;
                 targetIdx = i;
             }
         }
@@ -694,73 +1049,83 @@ function cookDish(recipe) {
     if (targetIdx !== -1) {
         activeCustomers[targetIdx] = null;
         if (selectedPriority === targetIdx) selectedPriority = null;
-        score += recipe.pts;
-        money += recipe.price;
+        streak += 1;
+        const mult = streak >= 5 ? 2 : 1;
+        const gainedPts = recipe.pts * mult;
+
+        state.score += gainedPts;
+        state.money += recipe.price;
         shiftStats.served += 1;
         shiftStats.earned += recipe.price;
 
         if (recipe.id === 'tea') {
-            activeAromaTimer = 6;
-            document.getElementById('patienceAromaLabel').classList.remove('hidden');
-            showToast(t('aromaTriggered'), 'good');
+            activeAromaTimer = Math.max(activeAromaTimer, 6);
+            showToast(t('teaAromaTriggered'), 'good');
         } else {
-            showToast(`+$${recipe.price} | +${recipe.pts} ${t('ptsUnit')}`, 'good');
+            showToast(`+$${recipe.price} | +${gainedPts} ${t('ptsUnit')}${mult === 2 ? ' (2x!)' : ''}`, 'good');
         }
         checkScoreMilestones();
     } else {
-        leftovers += 1;
-        shiftStats.leftoversMade += 1;
+        state.leftovers += 1;
         showToast(t('leftoverCreated'));
     }
 
     updateHUD();
-    renderCustomers(true);
-    renderShiftKitchen();
 }
 
 function checkScoreMilestones() {
-    if (score >= 50000 && !ecoNotified) {
-        ecoNotified = true;
+    if (state.score >= 50000 && !state.ecoNotified) {
+        state.ecoNotified = true;
         showToast(t('ecoUnlocked'), 'good');
     }
 }
 
 function endShift() {
     clearInterval(gameInterval);
+    cookingJobs = {};
     const music = document.getElementById('bgMusic');
     music.pause();
     music.currentTime = 0;
+
+    // Madde 5: Yemek artmasa bile barınağa bağış için rastgele 1-4 tabak yiyecek artsın
+    let autoSurplus = 0;
+    if (state.leftovers === 0) {
+        autoSurplus = Math.floor(Math.random() * 4) + 1;
+        state.leftovers += autoSurplus;
+    }
+    shiftStats.autoSurplus = autoSurplus;
 
     const body = document.getElementById('summaryBody');
     body.innerHTML = `
         <div class="summary-line"><span>${t('statsServed')}</span><strong>${shiftStats.served}</strong></div>
         <div class="summary-line bonus"><span>${t('statsEarnings')}</span><strong>+$${shiftStats.earned}</strong></div>
-        <div class="summary-line"><span>${t('statsScraps')}</span><strong>♻️ ${shiftStats.scrapsMade} (${scraps})</strong></div>
-        <div class="summary-line highlight"><span>${t('statsSurplus')}</span><strong>🍽️ ${leftovers} ${t('platesUnit')}</strong></div>
-        <p style="font-size:0.74rem; text-align:center; color:#5c3a21; font-weight:700; margin-top:4px;">${t('statsNightNote')}</p>
+        <div class="summary-line"><span>${t('statsScraps')}</span><strong>♻️ ${shiftStats.scrapsMade} (${state.scraps})</strong></div>
+        ${autoSurplus > 0 ? `<div class="summary-line highlight"><span>${t('statsAutoSurplus')}</span><strong>🍲 +${autoSurplus} ${t('platesUnit')}</strong></div>` : ''}
+        <div class="summary-line highlight"><span>${t('statsTotalSurplus')}</span><strong>🍽️ ${state.leftovers} ${t('platesUnit')}</strong></div>
+        <p style="font-size:0.74rem; text-align:center; color:#6e4a2b; font-weight:700; margin-top:4px;">${t('statsNightNote')}</p>
     `;
 
+    state.phase = 'evening';
     document.getElementById('shiftSummaryModal').classList.add('active');
-    saveGame();
+    saveCurrentSlot();
 }
 
 function closeSummaryAndManage() {
     playPopSound(520);
     document.getElementById('shiftSummaryModal').classList.remove('active');
-    day += 1;
+    state.day += 1;
 
-    gardenPlots.forEach(plot => {
-        if (plot.status === 'sprout') {
-            plot.status = 'ready';
-        }
+    // Bir sonraki elde filizler hasada hazır hale gelir
+    state.gardenPlots.forEach(plot => {
+        if (plot.status === 'sprout') plot.status = 'ready';
     });
 
     openEveningPanel();
-    saveGame();
+    saveCurrentSlot();
 }
 
 function openEveningPanel() {
-    phase = 'evening';
+    state.phase = 'evening';
     document.getElementById('restaurantView').classList.remove('active');
     document.getElementById('managementView').classList.add('active');
     updateHUD();
@@ -769,8 +1134,9 @@ function openEveningPanel() {
     renderCompostOptions();
 }
 
-// --- BAHÇE ---
+// --- BAHÇE (ELMASIZ, SÜRÜLMÜŞ TOPRAK + 3 FİLİZ) ---
 function renderGarden() {
+    if (!state) return;
     const toolbar = document.getElementById('seedToolbar');
     toolbar.innerHTML = '';
     Object.entries(SEEDS).forEach(([key, s]) => {
@@ -782,11 +1148,12 @@ function renderGarden() {
             renderGarden();
         };
         const label = activeLang === 'tr' ? s.nameTR : s.nameEN;
-        btn.textContent = `${s.emoji} ${label} ($${s.cost})`;
+        const bonus = state.philosophy === 'compost' ? ' (+5)' : '';
+        btn.textContent = `${s.emoji} ${label} ($${s.cost})${bonus}`;
         toolbar.appendChild(btn);
     });
 
-    document.getElementById('gardenFertStatus').textContent = `🌾 ${t('fertCount')}: ${fertilizer}`;
+    document.getElementById('gardenFertStatus').textContent = `🌾 ${t('fertCount')}: ${state.fertilizer}`;
     const fertBtn = document.getElementById('uiToggleFertilizerBtn');
     fertBtn.textContent = fertilizerMode ? t('fertModeOn') : t('fertModeOff');
     fertBtn.classList.toggle('active-fert', fertilizerMode);
@@ -794,7 +1161,7 @@ function renderGarden() {
     const grid = document.getElementById('gardenGrid');
     grid.innerHTML = '';
 
-    gardenPlots.forEach((plot, idx) => {
+    state.gardenPlots.forEach((plot, idx) => {
         const cell = document.createElement('div');
         cell.className = `garden-plot ${plot.status}`;
         cell.onclick = () => interactPlot(idx);
@@ -819,50 +1186,52 @@ function renderGarden() {
 }
 
 function interactPlot(idx) {
-    const plot = gardenPlots[idx];
+    const plot = state.gardenPlots[idx];
 
     if (plot.status === 'empty') {
         const s = SEEDS[selectedSeed];
-        if (money < s.cost) {
+        if (state.money < s.cost) {
             showToast(t('noMoney'), 'bad');
             return;
         }
-        money -= s.cost;
+        state.money -= s.cost;
         plot.status = 'sprout';
         plot.seed = selectedSeed;
         plot.fertilized = false;
         playPopSound(500);
         showToast(t('plantToast'), 'good');
     } else if (plot.status === 'sprout' && fertilizerMode) {
-        if (fertilizer <= 0) {
+        if (state.fertilizer <= 0) {
             fertilizerMode = false;
             showToast(t('noCompost'), 'bad');
         } else {
-            fertilizer -= 1;
+            state.fertilizer -= 1;
             plot.status = 'ready';
             plot.fertilized = true;
-            if (fertilizer <= 0) fertilizerMode = false;
+            if (state.fertilizer <= 0) fertilizerMode = false;
             playPopSound(700);
             showToast(t('fertilizedToast'), 'good');
         }
     } else if (plot.status === 'ready') {
         const s = SEEDS[plot.seed] || SEEDS.carrot;
-        const gained = s.yield + (plot.fertilized ? 10 : 0);
-        reserves.produce = Math.min(100, reserves.produce + gained);
+        const philBonus = state.philosophy === 'compost' ? 5 : 0;
+        const fertBonus = plot.fertilized ? 10 : 0;
+        const gained = s.yield + philBonus + fertBonus;
+        state.reserves.produce = Math.min(MAX_RESERVE, state.reserves.produce + gained);
         plot.status = 'empty';
         plot.seed = null;
         plot.fertilized = false;
-        playPopSound(740);
+        playReadyDing();
         showToast(`${t('harvestToast')} +${gained} 🥦`, 'good');
     }
 
     updateHUD();
     renderGarden();
-    saveGame();
+    saveCurrentSlot();
 }
 
 function toggleFertilizerMode() {
-    if (fertilizer <= 0 && !fertilizerMode) {
+    if (state.fertilizer <= 0 && !fertilizerMode) {
         showToast(t('noCompost'), 'bad');
         return;
     }
@@ -871,16 +1240,26 @@ function toggleFertilizerMode() {
     renderGarden();
 }
 
-// --- PAZAR & ÇİFTÇİ BARNABY'YE KOMPOST SATIŞI ---
+// --- PAZAR & BARNABY KOMPOST SATIŞI ---
+function getMarketDiscountRate() {
+    let disc = 0;
+    if (state.philosophy === 'bargainer') disc += 0.15;
+    if (state.score >= 75000) disc += 0.25;
+    return Math.min(0.4, disc);
+}
+
 function renderMarket() {
+    if (!state) return;
     const grid = document.getElementById('marketGrid');
     grid.innerHTML = '';
 
-    const isVip = score >= 75000;
-    document.getElementById('discountBadge').classList.toggle('hidden', !isVip);
+    const disc = getMarketDiscountRate();
+    const badge = document.getElementById('discountBadge');
+    badge.classList.toggle('hidden', disc <= 0);
+    if (disc > 0) badge.textContent = `-%${Math.round(disc * 100)}`;
 
     MARKET_ITEMS.forEach(item => {
-        const price = isVip ? Math.round(item.cost * 0.75) : item.cost;
+        const price = Math.max(1, Math.round(item.cost * (1 - disc)));
         const name = activeLang === 'tr' ? item.nameTR : item.nameEN;
         const card = document.createElement('div');
         card.className = 'market-card';
@@ -888,103 +1267,78 @@ function renderMarket() {
             <span class="mkt-icon">${item.emoji}</span>
             <h5>${name}</h5>
             <p>+${item.yield} • $${price}</p>
-            <button class="secondary-btn sm-btn full-btn" onclick="buyMarketItem('${item.type}', ${price}, ${item.yield})">${t('buyBtn')}</button>
+            <button class="amber-btn sm-btn full-btn" onclick="buyMarketItem('${item.type}', ${price}, ${item.yield})">${t('buyBtn')}</button>
         `;
         grid.appendChild(card);
     });
 
-    // Barnaby Kompost Alım Kutusu
-    const marketInner = document.querySelector('#marketTab .tab-inner');
-    if (marketInner) {
-        let sellBox = document.getElementById('barnabySellBox');
-        if (!sellBox) {
-            sellBox = document.createElement('div');
-            sellBox.id = 'barnabySellBox';
-            sellBox.className = 'npc-banner';
-            sellBox.style.justifyContent = 'space-between';
-            sellBox.style.flexWrap = 'wrap';
-            sellBox.style.gap = '8px';
-            marketInner.appendChild(sellBox);
-        }
-
-        const disabledStyle = fertilizer <= 0 ? 'opacity:0.55;' : '';
-        sellBox.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:2px;">
-                <strong style="font-size:0.86rem;">${t('barnabySellTitle')}</strong>
-                <span style="font-size:0.72rem; color:#5c3a21; font-weight:700;">
-                    🌾 ${t('fertCount')}: <b>${fertilizer}</b> • ${t('barnabySellSub')}
-                </span>
-            </div>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                <button class="primary-btn sm-btn" style="${disabledStyle}" onclick="sellCompostToBarnaby(false)">${t('sellOneBtn')}</button>
-                ${fertilizer > 1
-                    ? `<button class="secondary-btn sm-btn" onclick="sellCompostToBarnaby(true)">${t('sellAllBtn')} (+$${fertilizer * COMPOST_SELL_PRICE})</button>`
-                    : ''}
-            </div>
-        `;
-    }
+    const sellBox = document.getElementById('barnabySellBox');
+    const dim = state.fertilizer <= 0 ? 'opacity:0.5;' : '';
+    sellBox.innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="font-size:0.86rem;">${t('barnabySellTitle')}</strong>
+            <span style="font-size:0.72rem; color:#6e4a2b; font-weight:700;">
+                🌾 ${t('fertCount')}: <b>${state.fertilizer}</b> • ${t('barnabySellSub')}
+            </span>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="green-cta-btn sm-btn" style="${dim}" onclick="sellCompostToBarnaby(false)">${t('sellOneBtn')}</button>
+            ${state.fertilizer > 1
+                ? `<button class="amber-btn sm-btn" onclick="sellCompostToBarnaby(true)">${t('sellAllBtn')} (+$${state.fertilizer * COMPOST_SELL_PRICE})</button>`
+                : ''}
+        </div>
+    `;
 }
 
 function buyMarketItem(type, cost, amount) {
-    if (money < cost) {
+    if (state.money < cost) {
         showToast(t('noMoney'), 'bad');
         return;
     }
-    money -= cost;
-    reserves[type] = Math.min(100, reserves[type] + amount);
+    state.money -= cost;
+    state.reserves[type] = Math.min(MAX_RESERVE, state.reserves[type] + amount);
     playPopSound(620);
     showToast(`${t('boughtToast')} +${amount}`, 'good');
     updateHUD();
-    saveGame();
+    saveCurrentSlot();
 }
 
-function sellCompostToBarnaby(sellAll = false) {
-    if (fertilizer <= 0) {
+function sellCompostToBarnaby(sellAll) {
+    if (state.fertilizer <= 0) {
         playPopSound(220);
         showToast(t('noCompost'), 'bad');
         return;
     }
-    const qty = sellAll ? fertilizer : 1;
+    const qty = sellAll ? state.fertilizer : 1;
     const earnedMoney = qty * COMPOST_SELL_PRICE;
     const earnedPts = qty * COMPOST_SELL_POINTS;
 
-    fertilizer -= qty;
-    if (fertilizer <= 0) fertilizerMode = false;
-    money += earnedMoney;
-    score += earnedPts;
+    state.fertilizer -= qty;
+    if (state.fertilizer <= 0) fertilizerMode = false;
+    state.money += earnedMoney;
+    state.score += earnedPts;
 
-    playPopSound(720);
+    playReadyDing();
     showToast(`${t('compostSold')} +$${earnedMoney} | +${earnedPts} ${t('ptsUnit')}`, 'good');
     checkScoreMilestones();
     updateHUD();
     renderMarket();
     renderGarden();
-    saveGame();
+    saveCurrentSlot();
 }
 
-// --- KOMPOST SEKMESİ & HIZLI KULLANIM / SATIŞ SEÇENEKLERİ ---
+// --- KOMPOST & BARINAK ---
 function renderCompostOptions() {
-    const body = document.querySelector('#compostTab .feature-body');
-    if (!body) return;
-
-    let row = document.getElementById('compostChoiceRow');
-    if (!row) {
-        row = document.createElement('div');
-        row.id = 'compostChoiceRow';
-        row.style.display = 'grid';
-        row.style.gridTemplateColumns = '1fr 1fr';
-        row.style.gap = '6px';
-        body.appendChild(row);
-    }
-
+    const row = document.getElementById('compostChoiceRow');
+    if (!row) return;
     row.innerHTML = `
-        <button class="secondary-btn sm-btn" onclick="goUseCompostInGarden()">${t('useInGardenBtn')}</button>
-        <button class="secondary-btn sm-btn" onclick="goSellCompostInMarket()">${t('sellAtMarketBtn')} (+$${COMPOST_SELL_PRICE})</button>
+        <button class="amber-btn sm-btn" onclick="goUseCompostInGarden()">${t('useInGardenBtn')}</button>
+        <button class="amber-btn sm-btn" onclick="goSellCompostInMarket()">${t('sellAtMarketBtn')} (+$${COMPOST_SELL_PRICE})</button>
     `;
 }
 
 function goUseCompostInGarden() {
-    if (fertilizer > 0) fertilizerMode = true;
+    if (state.fertilizer > 0) fertilizerMode = true;
     switchTab('garden');
 }
 
@@ -993,44 +1347,44 @@ function goSellCompostInMarket() {
 }
 
 function dumpScrapsToCompost() {
-    if (scraps < 5) {
+    if (state.scraps < 5) {
         showToast(t('noScraps'), 'bad');
         return;
     }
-    scraps -= 5;
-    fertilizer += 1;
-    score += 50;
-    playPopSound(660);
+    state.scraps -= 5;
+    state.fertilizer += 1;
+    state.score += 50;
+    playReadyDing();
     showToast(t('compostSuccess'), 'good');
     checkScoreMilestones();
     updateHUD();
     renderGarden();
     renderMarket();
-    saveGame();
+    saveCurrentSlot();
 }
 
 function donateLeftovers() {
-    if (leftovers <= 0) {
+    if (state.leftovers <= 0) {
         showToast(t('noLeftovers'), 'bad');
         return;
     }
-    const pts = leftovers * 150;
-    leftovers = 0;
-    score += pts;
-    playPopSound(720);
+    const basePts = state.leftovers * 150;
+    const pts = state.philosophy === 'shelter' ? Math.round(basePts * 1.25) : basePts;
+    state.leftovers = 0;
+    state.score += pts;
+    playReadyDing();
     showToast(`${t('donateSuccess')} +${pts} ${t('ptsUnit')}`, 'good');
     checkScoreMilestones();
     updateHUD();
-    saveGame();
+    saveCurrentSlot();
 }
 
 function switchTab(name) {
     playPopSound(500);
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.mgmt-tab').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-    const btnId = 'uiTab' + name.charAt(0).toUpperCase() + name.slice(1);
-    document.getElementById(btnId).classList.add('active');
+    document.getElementById('uiTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
     document.getElementById(`${name}Tab`).classList.add('active');
 
     if (name === 'garden') renderGarden();
@@ -1039,57 +1393,78 @@ function switchTab(name) {
     updateHUD();
 }
 
-// --- HUD & STOK BARLARI ---
-function updateBar(fillId, valId, value) {
+// --- HUD & 150'LİK STOK BARLARI ---
+function setReserveBar(fillId, valId, value, showCap) {
     const fill = document.getElementById(fillId);
     const val = document.getElementById(valId);
     if (!fill || !val) return;
-    const clamped = Math.max(0, Math.min(100, value));
-    fill.style.width = `${clamped}%`;
-    fill.style.backgroundColor = clamped > 50 ? '#22c55e' : clamped > 20 ? '#f59e0b' : '#ef4444';
-    val.textContent = clamped;
+    const c = Math.max(0, Math.min(MAX_RESERVE, value));
+    const pct = (c / MAX_RESERVE) * 100;
+    fill.style.width = `${pct}%`;
+    fill.style.backgroundColor = pct > 45 ? '#2e8b3c' : pct > 20 ? '#d98218' : '#c93232';
+    val.textContent = showCap ? `${c} / ${MAX_RESERVE}` : `${c}`;
 }
 
 function updateHUD() {
-    const chef = CHEFS[activeChefIdx];
-    document.getElementById('activeChefImg').src = getChefImage(chef);
-    document.getElementById('chefNameDisplay').textContent = getChefName(chef);
-    document.getElementById('dayDisplay').textContent = `${t('dayPrefix')} ${day}`;
+    if (!state) return;
+    document.getElementById('activeChefImg').src = getChefImageByScore(state.chefIdx, state.score);
+    document.getElementById('chefNameDisplay').textContent = state.nickname;
 
     const badge = document.getElementById('hud-phase-badge');
-    badge.textContent = phase === 'restaurant' ? t('phaseShift') : t('phaseEvening');
-    badge.classList.toggle('evening', phase !== 'restaurant');
+    badge.textContent = state.phase === 'shift' ? t('phaseShift') : t('phaseEvening');
+    badge.classList.toggle('evening', state.phase !== 'shift');
 
     const m = Math.floor(timer / 60);
     const s = Math.ceil(timer % 60);
-    document.getElementById('timerDisplay').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    document.getElementById('moneyDisplay').textContent = `$${money}`;
-    document.getElementById('scoreDisplay').textContent = `${score.toLocaleString()} ${t('ptsUnit')}`;
-    document.getElementById('shiftLeftoverMini').textContent = `🍽️ ${leftovers}`;
+    document.getElementById('dayDisplay').textContent = `📅 ${t('dayPrefix')} ${state.day}`;
+    document.getElementById('timerDisplay').textContent = `⏱️ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    document.getElementById('moneyDisplay').textContent = `💰 $${state.money}`;
+    document.getElementById('scoreDisplay').textContent = `⭐ ${state.score.toLocaleString()}`;
+    document.getElementById('streakHudVal').textContent = `🔥 ${streak}`;
 
-    updateBar('bar-meat', 'val-meat', reserves.meat);
-    updateBar('bar-dairy', 'val-dairy', reserves.dairy);
-    updateBar('bar-produce', 'val-produce', reserves.produce);
-    updateBar('mkt-bar-meat', 'mkt-val-meat', reserves.meat);
-    updateBar('mkt-bar-dairy', 'mkt-val-dairy', reserves.dairy);
-    updateBar('mkt-bar-produce', 'mkt-val-produce', reserves.produce);
+    // Patience Aroma & Streak bar
+    const aromaBtn = document.getElementById('aromaBtn');
+    aromaBtn.classList.toggle('active-aroma', activeAromaTimer > 0);
+    aromaBtn.textContent = activeAromaTimer > 0
+        ? `${t('aromaActive')} (${Math.ceil(activeAromaTimer)}s)`
+        : t('aromaBtn');
 
-    document.getElementById('scrapsBadge').textContent = `${t('scrapsLabel')}: ${scraps}`;
-    document.getElementById('uiFertilizerCount').textContent = `${t('fertCount')}: ${fertilizer} 🌾`;
-    document.getElementById('leftoversBadge').textContent = `${t('leftoversLabel')}: ${leftovers} ${t('platesUnit')}`;
+    const streakBar = document.getElementById('streakBarText');
+    streakBar.classList.toggle('streak-hot', streak >= 5);
+    streakBar.textContent = `🔥 ${t('streakLabel')}: ${Math.min(streak, 5)}/5 (${t('doubleScore')})`;
 
-    const pct = Math.min(100, (scraps / 5) * 100);
+    // Stoklar / 150
+    setReserveBar('bar-meat', 'val-meat', state.reserves.meat, true);
+    setReserveBar('bar-dairy', 'val-dairy', state.reserves.dairy, true);
+    setReserveBar('bar-produce', 'val-produce', state.reserves.produce, true);
+    setReserveBar('m-bar-meat', 'm-val-meat', state.reserves.meat, false);
+    setReserveBar('m-bar-dairy', 'm-val-dairy', state.reserves.dairy, false);
+    setReserveBar('m-bar-produce', 'm-val-produce', state.reserves.produce, false);
+
+    // Atık & Artanlar
+    document.getElementById('sideScraps').textContent = state.scraps;
+    document.getElementById('sideLeftovers').textContent = state.leftovers;
+    document.getElementById('sideFertilizer').textContent = state.fertilizer;
+    document.getElementById('kitchenScrapsMini').textContent = `♻️ ${t('scrapsShort')}: ${state.scraps}`;
+    document.getElementById('kitchenLeftoversMini').textContent = `🍽️ ${t('leftoversShort')}: ${state.leftovers}`;
+
+    document.getElementById('scrapsBadge').textContent = `${t('scrapsLabel')}: ${state.scraps}`;
+    document.getElementById('uiFertilizerCount').textContent = `${t('fertCount')}: ${state.fertilizer} 🌾`;
+    document.getElementById('leftoversBadge').textContent = `${t('leftoversLabel')}: ${state.leftovers} ${t('platesUnit')}`;
+
+    const perPlate = state.philosophy === 'shelter' ? 188 : 150;
+    document.getElementById('uiDonateBtn').textContent = `${t('donateBtn')} (+${perPlate} ${t('ptsUnit')}/${t('platesUnit')})`;
+
+    const pct = Math.min(100, (state.scraps / 5) * 100);
     document.getElementById('compostProgressFill').style.width = `${pct}%`;
-    document.getElementById('compostProgressText').textContent = `${Math.min(scraps, 5)} / 5`;
-
-    renderCompostOptions();
+    document.getElementById('compostProgressText').textContent = `${Math.min(state.scraps, 5)} / 5`;
 }
 
-// --- ÇİFT HATLI BAŞARIMLAR & AMBİYANS SEÇİMİ ---
+// --- ÇİFT HATLI BAŞARIMLAR & KARAKTER REHBERİ ---
 function openAchievements() {
     playPopSound(580);
-    if (phase === 'restaurant') isPaused = true;
-    document.getElementById('achCurrentScore').textContent = `${score.toLocaleString()} ${t('ptsUnit')}`;
+    if (state && state.phase === 'shift') isPaused = true;
+    document.getElementById('achCurrentScore').textContent = `${state.score.toLocaleString()} ${t('ptsUnit')}`;
     renderAchievementTracks();
     document.getElementById('achievementsModal').classList.add('active');
 }
@@ -1097,7 +1472,7 @@ function openAchievements() {
 function closeAchievements() {
     playPopSound(480);
     document.getElementById('achievementsModal').classList.remove('active');
-    if (phase === 'restaurant' && !document.getElementById('pauseModal').classList.contains('active')) {
+    if (state && state.phase === 'shift' && !document.getElementById('pauseModal').classList.contains('active')) {
         isPaused = false;
     }
 }
@@ -1109,12 +1484,12 @@ function renderAchievementTracks() {
     RESTAURANT_TRACK.forEach((item, idx) => {
         if (idx > 0) {
             const line = document.createElement('div');
-            line.className = `track-connector ${score >= item.score ? 'filled' : ''}`;
+            line.className = `track-connector ${state.score >= item.score ? 'filled' : ''}`;
             restRow.appendChild(line);
         }
 
-        const unlocked = score >= item.score;
-        const isActive = item.type === 'ambiance' && currentAmbiance === item.bg;
+        const unlocked = state.score >= item.score;
+        const isActive = item.type === 'ambiance' && state.currentAmbiance === item.bg;
         const title = activeLang === 'tr' ? item.titleTR : item.titleEN;
 
         const node = document.createElement('div');
@@ -1123,23 +1498,23 @@ function renderAchievementTracks() {
             node.style.cursor = 'pointer';
             node.onclick = () => {
                 playPopSound(660);
-                currentAmbiance = item.bg;
+                state.currentAmbiance = item.bg;
                 document.getElementById('ambianceImg').src = item.bg;
                 showToast(`${t('ambChanged')} ${title}`, 'good');
                 renderAchievementTracks();
-                saveGame();
+                saveCurrentSlot();
             };
         }
 
-        let statusTag = `<span class="node-pts">🔒 ${item.score.toLocaleString()}</span>`;
-        if (isActive) statusTag = `<span class="node-tag gold">${t('activeTag')}</span>`;
-        else if (unlocked && item.type === 'ambiance') statusTag = `<span class="node-tag">${t('selectTag')}</span>`;
-        else if (unlocked) statusTag = `<span class="node-tag">${t('unlockedTag')}</span>`;
+        let tag = `<span class="node-pts">🔒 ${item.score.toLocaleString()}</span>`;
+        if (isActive) tag = `<span class="node-tag gold">${t('activeTag')}</span>`;
+        else if (unlocked && item.type === 'ambiance') tag = `<span class="node-tag">${t('selectTag')}</span>`;
+        else if (unlocked) tag = `<span class="node-tag">${t('unlockedTag')}</span>`;
 
         node.innerHTML = `
             <img src="${item.bg}" alt="${title}">
             <span>${title}</span>
-            ${statusTag}
+            ${tag}
         `;
         restRow.appendChild(node);
     });
@@ -1150,11 +1525,11 @@ function renderAchievementTracks() {
     RECIPES.forEach((r, idx) => {
         if (idx > 0) {
             const line = document.createElement('div');
-            line.className = `track-connector ${score >= r.unlock ? 'filled' : ''}`;
+            line.className = `track-connector ${state.score >= r.unlock ? 'filled' : ''}`;
             recRow.appendChild(line);
         }
 
-        const unlocked = score >= r.unlock;
+        const unlocked = state.score >= r.unlock;
         const node = document.createElement('div');
         node.className = `track-node recipe-node ${unlocked ? 'unlocked' : ''}`;
         node.innerHTML = `
@@ -1166,6 +1541,44 @@ function renderAchievementTracks() {
         `;
         recRow.appendChild(node);
     });
+}
+
+function openCharactersModal() {
+    playPopSound(580);
+    if (state && state.phase === 'shift') isPaused = true;
+
+    const list = document.getElementById('charactersList');
+    list.innerHTML = '';
+    CUSTOMERS.forEach(c => {
+        const role = activeLang === 'tr' ? c.roleTR : c.roleEN;
+        const favNames = c.prefs
+            .map(pid => RECIPES.find(r => r.id === pid))
+            .filter(Boolean)
+            .map(r => getRecipeName(r))
+            .join(', ');
+
+        const card = document.createElement('div');
+        card.className = 'char-guide-card';
+        card.innerHTML = `
+            <img src="${c.img}" alt="${c.name}">
+            <div>
+                <h5>${c.name} (${role})</h5>
+                <p>⏱ ${t('patienceText')}: ${c.patience}s</p>
+                <p>🍽 ${t('favsText')}: ${favNames}</p>
+            </div>
+        `;
+        list.appendChild(card);
+    });
+
+    document.getElementById('charactersModal').classList.add('active');
+}
+
+function closeCharactersModal() {
+    playPopSound(480);
+    document.getElementById('charactersModal').classList.remove('active');
+    if (state && state.phase === 'shift' && !document.getElementById('pauseModal').classList.contains('active')) {
+        isPaused = false;
+    }
 }
 
 // --- PAUSE & MÜZİK ---
@@ -1181,7 +1594,7 @@ function resumeGame() {
     playPopSound(600);
     isPaused = false;
     document.getElementById('pauseModal').classList.remove('active');
-    if (phase === 'restaurant' && !isMuted) {
+    if (state && state.phase === 'shift' && !isMuted) {
         document.getElementById('bgMusic').play().catch(() => {});
     }
 }
@@ -1191,7 +1604,7 @@ function toggleAudio() {
     const music = document.getElementById('bgMusic');
     if (isMuted) {
         music.pause();
-    } else if (phase === 'restaurant' && !isPaused) {
+    } else if (state && state.phase === 'shift' && !isPaused) {
         music.play().catch(() => {});
     }
     updateAudioButtons();
@@ -1207,20 +1620,27 @@ function updateAudioButtons() {
 function returnToMainMenu() {
     playPopSound(420);
     clearInterval(gameInterval);
+    clearInterval(countdownInterval);
     isPaused = false;
+    cookingJobs = {};
     const music = document.getElementById('bgMusic');
     music.pause();
     music.currentTime = 0;
 
-    saveGame();
+    saveCurrentSlot();
     document.getElementById('pauseModal').classList.remove('active');
+    document.getElementById('countdownModal').classList.remove('active');
     document.getElementById('gameScreen').classList.remove('active');
     document.getElementById('startScreen').classList.add('active');
-    document.getElementById('uiStartBtn').textContent = hasSave ? t('continueBtn') : t('startBtn');
-    renderChefSelect();
+    renderStartScreen();
 }
 
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+}
+
+// BAŞLATMA
 document.addEventListener('DOMContentLoaded', () => {
-    loadGame();
+    loadSlotsFromStorage();
     setLanguage(activeLang);
 });
